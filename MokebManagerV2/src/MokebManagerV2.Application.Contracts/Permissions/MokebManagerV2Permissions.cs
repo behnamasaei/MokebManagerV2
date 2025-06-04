@@ -6,4 +6,12 @@ public static class MokebManagerV2Permissions
 
     //Add your own permission names. Example:
     //public const string MyPermission1 = GroupName + ".MyPermission1";
+
+    public static class MokebsPermissions
+    {
+        public const string Default = GroupName + ".Mokebs";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
 }

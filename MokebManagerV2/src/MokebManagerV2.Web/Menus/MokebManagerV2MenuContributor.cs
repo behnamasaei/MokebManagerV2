@@ -21,14 +21,25 @@ public class MokebManagerV2MenuContributor : IMenuContributor
     private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
     {
         var administration = context.Menu.GetAdministration();
-        var l = context.GetLocalizer<MokebManagerV2Resource>();
+        var L = context.GetLocalizer<MokebManagerV2Resource>();
 
         context.Menu.Items.Insert(
             0,
             new ApplicationMenuItem(
                 MokebManagerV2Menus.Home,
-                l["Menu:Home"],
+                L["Menu:Home"],
                 "~/",
+                icon: "fas fa-home",
+                order: 0
+            )
+        );
+
+        context.Menu.Items.Insert(
+            0,
+            new ApplicationMenuItem(
+                MokebManagerV2Menus.Mokeb,
+                L["Menu:Mokeb"],
+                "~/mokeb",
                 icon: "fas fa-home",
                 order: 0
             )

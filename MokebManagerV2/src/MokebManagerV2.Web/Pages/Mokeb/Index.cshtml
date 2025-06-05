@@ -1,4 +1,111 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MokebManagerV2.Dtos
+@using MokebManagerV2.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@inject IHtmlLocalizer<MokebManagerV2Resource> Localizer
+
 @model MokebManagerV2.Web.Pages.Mokeb.IndexModel
 @{
+	ViewData["Title"] = "Mokeb";
+	TempData["Id"] = "";
 }
+
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+
+}
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+	موکب جدید
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form method="post" class="mt-4">
+				<input type="hidden" asp-for="Input" />
+				<div class="modal-body">
+					<div class="mb-3">
+						<label asp-for="Input.Name" class="form-label"></label>
+						<input asp-for="Input.Name" class="form-control" />
+						<span asp-validation-for="Input.Name" class="text-danger"></span>
+					</div>
+
+					<div class="mb-3">
+						<label asp-for="Input.Sex" class="form-label"></label>
+						<select asp-for="Input.Sex" class="form-select">
+							<option value="">Select</option>
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+						</select>
+						<span asp-validation-for="Input.Sex" class="text-danger"></span>
+					</div>
+
+					<div class="mb-3">
+						<label asp-for="Input.Capacity" class="form-label"></label>
+						<input asp-for="Input.Capacity" class="form-control" type="number" />
+						<span asp-validation-for="Input.Capacity" class="text-danger"></span>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+					<button type="submit" class="btn btn-primary">ذخیره</button>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+
+<div class="container mt-4">
+
+	<table class="table table-bordered table-hover">
+		<thead class="table-light">
+			<tr>
+				<th>نام</th>
+				<th>جنسیت</th>
+				<th>ظرفیت</th>
+				<th>ویرایش</th>
+				<th>حذف</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Mokebs?.Items ?? new List<MokebDto>())
+			{
+				<tr>
+					<td>@item.Name</td>
+					<td>@Localizer[@item.Sex.ToString()]</td>
+					<td>@item.Capacity</td>
+					<td>
+						<a type="button" href="/Mokeb/Edit?id=@item.Id" class="btn btn-sm btn-primary">ویرایش</a>
+					</td>
+					<td>
+						<a type="button" onclick="deleteItem(@item.Id)" class="btn btn-sm btn-danger">حذف</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+	<!-- Pagination -->
+	@* <nav> *@
+	@* 	<ul class="pagination justify-content-center"> *@
+	@* 		@for (int i = 1; i <= (Model.Mokebs?.TotalCount ?? 0); i++) *@
+	@* 		{ *@
+	@* 			<li class="page-item @(i == Model.Page ? "active" : "")"> *@
+	@* 				<a class="page-link" href="?page=@i">@i</a> *@
+	@* 			</li> *@
+	@* 		} *@
+	@* 	</ul> *@
+	@* </nav> *@
+</div>

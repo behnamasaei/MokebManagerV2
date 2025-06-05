@@ -9,7 +9,12 @@ using Volo.Abp.Application.Services;
 
 namespace MokebManagerV2.Interfaces
 {
-    public interface IMokebAppService : IApplicationService
+    public interface IMokebAppService : ICrudAppService<
+        MokebDto,
+        Guid,
+        PagedAndSortedResultRequestDto,
+        CreateUpdateMokebDto,
+        CreateUpdateMokebDto>
     {
     }
 }

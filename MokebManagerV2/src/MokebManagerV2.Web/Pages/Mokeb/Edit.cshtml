@@ -1,0 +1,43 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MokebManagerV2.Localization
+@inject IHtmlLocalizer<MokebManagerV2Resource> Localizer
+
+@model MokebManagerV2.Web.Pages.Mokeb.EditModel
+@{
+}
+
+<form method="post" class="mt-4">
+	<input type="hidden" asp-for="Input.TenantId" />
+	<div class="modal-body">
+		<div class="mb-3">
+			<label asp-for="Input.Name" class="form-label"></label>
+			<input asp-for="Input.Name" class="form-control" />
+			<span asp-validation-for="Input.Name" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="Input.Sex" class="form-label"></label>
+			<select asp-for="Input.Sex" class="form-select">
+				<option value="">انتخاب</option>
+				<option value="Male">@Localizer["Male"]</option>
+				<option value="Female">@Localizer["Female"]</option>
+			</select>
+			<span asp-validation-for="Input.Sex" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="Input.Capacity" class="form-label"></label>
+			<input asp-for="Input.Capacity" class="form-control" type="number" />
+			<span asp-validation-for="Input.Capacity" class="text-danger"></span>
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<a href="/Mokeb/Index">
+			<button type="submit" class="btn btn-primary">بستن</button>
+		</a>
+		<button type="submit" class="btn btn-primary">ذخیره</button>
+		
+	</div>
+</form>

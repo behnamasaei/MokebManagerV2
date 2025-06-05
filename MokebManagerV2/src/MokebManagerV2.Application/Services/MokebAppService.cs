@@ -14,19 +14,21 @@ using static MokebManagerV2.Permissions.MokebManagerV2Permissions;
 
 namespace MokebManagerV2.Services
 {
-    public class MokebAppService : ApplicationService, IMokebAppService
+    [Authorize(MokebsPermissions.Default)]
+    public class MokebAppService :
+        CrudAppService<Mokeb, MokebDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateMokebDto, CreateUpdateMokebDto>,
+        IMokebAppService
     {
         private readonly IRepository<Mokeb, Guid> _mokebRepository;
 
-        public MokebAppService(IRepository<Mokeb, Guid> mokebRepository)
+        public MokebAppService(IRepository<Mokeb, Guid> repository) : base(repository)
         {
-            _mokebRepository = mokebRepository;
+            GetPolicyName = MokebsPermissions.Default;
+            GetListPolicyName = MokebsPermissions.Default;
+            CreatePolicyName = MokebsPermissions.Create;
+            UpdatePolicyName = MokebsPermissions.Edit;
+            DeletePolicyName = MokebsPermissions.Delete;
         }
 
-        [Authorize(MokebsPermissions.Default)]
-        public async Task<MokebDto> GetAsync(Guid id)
-        {
-            return new MokebDto { Name = "Hello" };
-        }
     }
 }

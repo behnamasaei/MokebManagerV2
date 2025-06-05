@@ -40,6 +40,10 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.RequestLocalization;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace MokebManagerV2.Web;
 
@@ -74,6 +78,7 @@ public class MokebManagerV2WebModule : AbpModule
                 typeof(MokebManagerV2WebModule).Assembly
             );
         });
+
 
         PreConfigure<OpenIddictBuilder>(builder =>
         {
@@ -112,6 +117,10 @@ public class MokebManagerV2WebModule : AbpModule
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
+
+        
+
+
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
@@ -139,9 +148,28 @@ public class MokebManagerV2WebModule : AbpModule
                 LeptonXLiteThemeBundles.Styles.Global,
                 bundle =>
                 {
-                    bundle.AddFiles("/global-styles.css");
+                    bundle.AddFiles(
+                        "/libs/bootstrap/css/bootstrap.min.css",
+                        "/libs/abp/core/abp.css",
+                        "/global-styles.css");
                 }
             );
+
+            options.ScriptBundles.Configure(
+            LeptonXLiteThemeBundles.Scripts.Global,
+            bundle =>
+            {
+                bundle.AddFiles(
+                    "/libs/jquery/jquery.js", // Ensure jQuery is loaded first if needed
+                    "/libs/abp/jquery/abp.jquery.js",
+                    "/libs/bootstrap/js/bootstrap.bundle.min.js", // Bootstrap JS
+                    "/libs/abp/core/abp.js",
+                    "/libs/abp/luxon/abp.luxon.js",
+                    "/libs/abp/utils/abp-utils.umd.js"
+
+
+                );
+            });
         });
     }
 
@@ -234,8 +262,25 @@ public class MokebManagerV2WebModule : AbpModule
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "MokebManagerV2 API");
         });
 
+
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
+
+        var supportedCultures = new[]
+        {
+            new CultureInfo("fa")
+        };
+        app.UseAbpRequestLocalization(options =>
+        {
+            options.DefaultRequestCulture = new RequestCulture("fa");
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+            options.RequestCultureProviders = new List<IRequestCultureProvider>
+            {
+                new QueryStringRequestCultureProvider(),
+                new CookieRequestCultureProvider()
+            };
+        });
     }
 }

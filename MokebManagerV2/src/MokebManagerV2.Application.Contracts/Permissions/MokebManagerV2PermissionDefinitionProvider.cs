@@ -14,6 +14,8 @@ public class MokebManagerV2PermissionDefinitionProvider : PermissionDefinitionPr
         //Define your own permissions here. Example:
         //myGroup.AddPermission(MokebManagerV2Permissions.MyPermission1, L("Permission:MyPermission1"));
 
+        #region Mokeb_Permissions
+
         var mokebGroup = context.AddGroup(MokebsPermissions.Default, L("Permission:MokebManagement"));
 
         var mokebManagement = mokebGroup.AddPermission(
@@ -36,6 +38,34 @@ public class MokebManagerV2PermissionDefinitionProvider : PermissionDefinitionPr
             L("Permission:MokebManagementDelete"),
             multiTenancySide: MultiTenancySides.Tenant);
 
+        #endregion
+
+        #region Pilgrim_permissions
+
+        var pilgrimGroup = context.AddGroup(PilgrimsPermissions.Default, L("Permission:PilgrimManagement"));
+
+        var pilgrimManagement = pilgrimGroup.AddPermission(
+            PilgrimsPermissions.Default,
+            L("Permission:PilgrimManagement"),
+            multiTenancySide: MultiTenancySides.Tenant);
+
+        pilgrimManagement.AddChild(
+            PilgrimsPermissions.Create,
+            L("Permission:PilgrimManagementCreate"),
+            multiTenancySide: MultiTenancySides.Tenant);
+
+        pilgrimManagement.AddChild(
+            PilgrimsPermissions.Edit,
+            L("Permission:PilgrimManagementEdit"),
+            multiTenancySide: MultiTenancySides.Tenant);
+
+        pilgrimManagement.AddChild(
+            PilgrimsPermissions.Delete,
+            L("Permission:PilgrimManagementDelete"),
+            multiTenancySide: MultiTenancySides.Tenant);
+
+
+        #endregion
     }
 
     private static LocalizableString L(string name)

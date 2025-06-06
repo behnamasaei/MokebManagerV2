@@ -14,4 +14,12 @@ public static class MokebManagerV2Permissions
         public const string Edit = Default + ".Edit";
         public const string Delete = Default + ".Delete";
     }
+
+    public static class PilgrimsPermissions
+    {
+        public const string Default = GroupName + ".Pilgrims";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
+    }
 }

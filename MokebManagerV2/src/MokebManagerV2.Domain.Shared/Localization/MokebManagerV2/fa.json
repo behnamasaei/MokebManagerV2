@@ -17,6 +17,11 @@
         "Permission:MokebManagement": "مدیریت موکب‌ها",
         "Permission:MokebManagementCreate": "افزودن موکب",
         "Permission:MokebManagementEdit": "ویرایش موکب",
-        "Permission:MokebManagementDelete": "حذف موکب"
+        "Permission:MokebManagementDelete": "حذف موکب",
+        "Permission:PilgrimManagement": "مدیریت زائرین",
+        "Permission:PilgrimManagementCreate": "زائر جدید",
+        "Permission:PilgrimManagementEdit": "ویرایش زائر",
+        "Permission:PilgrimManagementDelete": "حذف زائر"
+
     }
 }

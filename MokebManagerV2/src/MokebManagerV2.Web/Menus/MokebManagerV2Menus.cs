@@ -5,6 +5,8 @@ public class MokebManagerV2Menus
     private const string Prefix = "MokebManagerV2";
     public const string Home = Prefix + ".Home";
     public const string Mokeb = Prefix + ".Mokeb";
+    public const string PilgrimReception = Prefix + ".PilgrimReception";
+
     //Add your menu items here...
 
 }

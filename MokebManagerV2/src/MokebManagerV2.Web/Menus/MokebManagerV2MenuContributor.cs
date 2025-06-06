@@ -47,6 +47,17 @@ public class MokebManagerV2MenuContributor : IMenuContributor
             )
         );
 
+        context.Menu.Items.Insert(
+            2,
+            new ApplicationMenuItem(
+                MokebManagerV2Menus.PilgrimReception,
+                L["Menu:PilgrimReception"],
+                "~/pilgrim/new",
+                icon: "fas fa-home",
+                order: 0
+            )
+        );
+
         if (MultiTenancyConsts.IsEnabled)
         {
             administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);

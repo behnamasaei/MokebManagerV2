@@ -43,6 +43,8 @@ namespace MokebManagerV2.Dtos
 
         public DateTime ExitDate { get; set; }
 
+        public virtual List<DateTime> Traffic { get; set; }
+
         public Guid? TenantId { get; set; }
     }
 }

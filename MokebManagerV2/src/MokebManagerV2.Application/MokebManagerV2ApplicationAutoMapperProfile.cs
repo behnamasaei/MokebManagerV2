@@ -40,5 +40,63 @@ public class MokebManagerV2ApplicationAutoMapperProfile : Profile
             .MapExtraProperties()
             .ReverseMap();
 
+        CreateMap<Pilgrim, PilgrimDto>()
+            .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
+            .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
+            .ForMember(dest => dest.EntryDate, act => act.MapFrom(src => src.EntryDate))
+            .ForMember(dest => dest.ExitDate, act => act.MapFrom(src => src.ExitDate))
+            .ForMember(dest => dest.ForceExitDate, act => act.MapFrom(src => src.ForceExitDate))
+            .ForMember(dest => dest.Traffic, act => act.MapFrom(src => src.Traffic))
+            .ForMember(dest => dest.FullName, act => act.MapFrom(src => src.FullName))
+            .ForMember(dest => dest.PhoneNumber, act => act.MapFrom(src => src.PhoneNumber))
+            .ForMember(dest => dest.NationalCode, act => act.MapFrom(src => src.NationalCode))
+            .ForMember(dest => dest.PassportNo, act => act.MapFrom(src => src.PassportNo))
+            .ForMember(dest => dest.Sex, act => act.MapFrom(src => src.Sex))
+            .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
+            .ForMember(dest => dest.Mokeb, act => act.MapFrom(src => src.Mokeb))
+            .ForMember(dest => dest.MokebId, act => act.MapFrom(src => src.MokebId))
+            .ForMember(dest => dest.Image, act => act.MapFrom(src => src.Image))
+            .ForMember(dest => dest.TenantId, act => act.MapFrom(src => src.TenantId))
+            .ReverseMap()
+            .MapExtraProperties();
+
+
+        CreateMap<CreateUpdatePilgrimDto, PilgrimDto>()
+            .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
+            .ForMember(dest => dest.EntryDate, act => act.MapFrom(src => src.EntryDate))
+            .ForMember(dest => dest.ExitDate, act => act.MapFrom(src => src.ExitDate))
+            .ForMember(dest => dest.ForceExitDate, act => act.MapFrom(src => src.ForceExitDate))
+            .ForMember(dest => dest.Traffic, act => act.MapFrom(src => src.Traffic))
+            .ForMember(dest => dest.FullName, act => act.MapFrom(src => src.FullName))
+            .ForMember(dest => dest.PhoneNumber, act => act.MapFrom(src => src.PhoneNumber))
+            .ForMember(dest => dest.NationalCode, act => act.MapFrom(src => src.NationalCode))
+            .ForMember(dest => dest.PassportNo, act => act.MapFrom(src => src.PassportNo))
+            .ForMember(dest => dest.Sex, act => act.MapFrom(src => src.Sex))
+            .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
+            .ForMember(dest => dest.MokebId, act => act.MapFrom(src => src.MokebId))
+            .ForMember(dest => dest.Image, act => act.MapFrom(src => src.Image))
+            .ForMember(dest => dest.TenantId, act => act.MapFrom(src => src.TenantId))
+            .ReverseMap()
+            .MapExtraProperties();
+
+
+        CreateMap<Pilgrim, CreateUpdatePilgrimDto>()
+            .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
+            .ForMember(dest => dest.EntryDate, act => act.MapFrom(src => src.EntryDate))
+            .ForMember(dest => dest.ExitDate, act => act.MapFrom(src => src.ExitDate))
+            .ForMember(dest => dest.ForceExitDate, act => act.MapFrom(src => src.ForceExitDate))
+            .ForMember(dest => dest.Traffic, act => act.MapFrom(src => src.Traffic))
+            .ForMember(dest => dest.FullName, act => act.MapFrom(src => src.FullName))
+            .ForMember(dest => dest.PhoneNumber, act => act.MapFrom(src => src.PhoneNumber))
+            .ForMember(dest => dest.NationalCode, act => act.MapFrom(src => src.NationalCode))
+            .ForMember(dest => dest.PassportNo, act => act.MapFrom(src => src.PassportNo))
+            .ForMember(dest => dest.Sex, act => act.MapFrom(src => src.Sex))
+            .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
+            .ForMember(dest => dest.MokebId, act => act.MapFrom(src => src.MokebId))
+            .ForMember(dest => dest.Image, act => act.MapFrom(src => src.Image))
+            .ForMember(dest => dest.TenantId, act => act.MapFrom(src => src.TenantId))
+            .ReverseMap()
+            .MapExtraProperties();
+
     }
 }

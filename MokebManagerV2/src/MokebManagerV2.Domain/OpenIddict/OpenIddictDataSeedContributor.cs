@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
+using MokebManagerV2.Models;
 using OpenIddict.Abstractions;
 using Volo.Abp;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Guids;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.OpenIddict.Applications;
 using Volo.Abp.OpenIddict.Scopes;
 using Volo.Abp.PermissionManagement;
@@ -31,6 +35,10 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
     private readonly IPermissionDataSeeder _permissionDataSeeder;
     private readonly IStringLocalizer<OpenIddictResponse> L;
 
+    private readonly IRepository<Mokeb, Guid> _mokebRepository;
+    private readonly IGuidGenerator _guidGenerator;
+    private readonly ICurrentTenant _currentTenant;
+
     public OpenIddictDataSeedContributor(
         IConfiguration configuration,
         IOpenIddictApplicationRepository openIddictApplicationRepository,
@@ -38,7 +46,10 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         IOpenIddictScopeRepository openIddictScopeRepository,
         IOpenIddictScopeManager scopeManager,
         IPermissionDataSeeder permissionDataSeeder,
-        IStringLocalizer<OpenIddictResponse> l )
+        IStringLocalizer<OpenIddictResponse> l,
+        IRepository<Mokeb, Guid> mokebRepository,
+        IGuidGenerator guidGenerator,
+        ICurrentTenant currentTenant)
     {
         _configuration = configuration;
         _openIddictApplicationRepository = openIddictApplicationRepository;
@@ -47,6 +58,9 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         _scopeManager = scopeManager;
         _permissionDataSeeder = permissionDataSeeder;
         L = l;
+        _mokebRepository = mokebRepository;
+        _guidGenerator = guidGenerator;
+        _currentTenant = currentTenant;
     }
 
     [UnitOfWork]
@@ -60,8 +74,11 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
     {
         if (await _openIddictScopeRepository.FindByNameAsync("MokebManagerV2") == null)
         {
-            await _scopeManager.CreateAsync(new OpenIddictScopeDescriptor {
-                Name = "MokebManagerV2", DisplayName = "MokebManagerV2 API", Resources = { "MokebManagerV2" }
+            await _scopeManager.CreateAsync(new OpenIddictScopeDescriptor
+            {
+                Name = "MokebManagerV2",
+                DisplayName = "MokebManagerV2 API",
+                Resources = { "MokebManagerV2" }
             });
         }
     }
@@ -155,7 +172,8 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
 
         var client = await _openIddictApplicationRepository.FindByClientIdAsync(name);
 
-        var application = new AbpApplicationDescriptor {
+        var application = new AbpApplicationDescriptor
+        {
             ClientId = name,
             ClientType = type,
             ClientSecret = secret,

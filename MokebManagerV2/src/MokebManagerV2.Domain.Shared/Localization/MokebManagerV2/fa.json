@@ -2,8 +2,9 @@
     "culture": "fa",
     "texts": {
         "AppName": "مدیریت موکب",
-        "Menu:Home": "خانه",
+        "Menu:Home": "صفحه نخست",
         "Menu:Mokeb": "موکب",
+        "MokebSettings": "تنظیمات موکب",
         "Welcome": "خوش آمدید",
         "Male": "مرد",
         "Female": "زن",
@@ -11,6 +12,7 @@
         "Capacity": "ظرفیت",
         "Location": "مکان",
         "Sex": "جنسیت",
+        "Select": "انتخاب",
         "LongWelcomeMessage": "به برنامه خوش آمدید. این یک پروژه‌ی ابتدایی مبتنی بر فریم‌ورک ABP است. برای اطلاعات بیشتر به abp.io مراجعه کنید.",
         "Permission:MokebManagement": "مدیریت موکب‌ها",
         "Permission:MokebManagementCreate": "افزودن موکب",

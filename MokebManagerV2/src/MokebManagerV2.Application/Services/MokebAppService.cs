@@ -9,6 +9,7 @@ using MokebManagerV2.Interfaces;
 using MokebManagerV2.Models;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Data;
 using Volo.Abp.Domain.Repositories;
 using static MokebManagerV2.Permissions.MokebManagerV2Permissions;
 
@@ -21,7 +22,7 @@ namespace MokebManagerV2.Services
     {
         private readonly IRepository<Mokeb, Guid> _mokebRepository;
 
-        public MokebAppService(IRepository<Mokeb, Guid> repository) : base(repository)
+        public MokebAppService(IRepository<Mokeb, Guid> repository, IDataSeeder dataSeeder) : base(repository)
         {
             GetPolicyName = MokebsPermissions.Default;
             GetListPolicyName = MokebsPermissions.Default;

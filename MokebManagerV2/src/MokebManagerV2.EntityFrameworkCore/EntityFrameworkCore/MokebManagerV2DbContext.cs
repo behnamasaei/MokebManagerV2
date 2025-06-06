@@ -89,7 +89,7 @@ public class MokebManagerV2DbContext :
         {
             b.ToTable(MokebManagerV2Consts.DbTablePrefix + "Mokeb", MokebManagerV2Consts.DbSchema);
             b.HasMany(x => x.Pilgrims).WithOne(x => x.Mokeb).HasForeignKey(x => x.MokebId);
-            b.HasIndex(x => x.Name).IsUnique();
+            b.HasIndex(x => x.Name).IsUnique().HasFilter("[IsDeleted] = 0");
             b.ConfigureByConvention(); //auto configure for the base class props
         });
 

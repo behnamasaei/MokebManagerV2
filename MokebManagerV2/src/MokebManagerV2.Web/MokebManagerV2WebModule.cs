@@ -149,27 +149,18 @@ public class MokebManagerV2WebModule : AbpModule
                 bundle =>
                 {
                     bundle.AddFiles(
-                        "/libs/bootstrap/css/bootstrap.min.css",
-                        "/libs/abp/core/abp.css",
                         "/global-styles.css");
                 }
             );
 
-            options.ScriptBundles.Configure(
-            LeptonXLiteThemeBundles.Scripts.Global,
-            bundle =>
-            {
-                bundle.AddFiles(
-                    "/libs/jquery/jquery.js", // Ensure jQuery is loaded first if needed
-                    "/libs/abp/jquery/abp.jquery.js",
-                    "/libs/bootstrap/js/bootstrap.bundle.min.js", // Bootstrap JS
-                    "/libs/abp/core/abp.js",
-                    "/libs/abp/luxon/abp.luxon.js",
-                    "/libs/abp/utils/abp-utils.umd.js"
-
-
-                );
-            });
+            //options.ScriptBundles.Configure(
+            //LeptonXLiteThemeBundles.Scripts.Global,
+            //bundle =>
+            //{
+            //    bundle.AddFiles(
+            //        ""
+            //    );
+            //});
         });
     }
 
@@ -267,20 +258,6 @@ public class MokebManagerV2WebModule : AbpModule
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
 
-        var supportedCultures = new[]
-        {
-            new CultureInfo("fa")
-        };
-        app.UseAbpRequestLocalization(options =>
-        {
-            options.DefaultRequestCulture = new RequestCulture("fa");
-            options.SupportedCultures = supportedCultures;
-            options.SupportedUICultures = supportedCultures;
-            options.RequestCultureProviders = new List<IRequestCultureProvider>
-            {
-                new QueryStringRequestCultureProvider(),
-                new CookieRequestCultureProvider()
-            };
-        });
+        
     }
 }

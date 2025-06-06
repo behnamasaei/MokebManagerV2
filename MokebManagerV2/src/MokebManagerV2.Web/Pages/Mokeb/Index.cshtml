@@ -15,6 +15,27 @@
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />
 
+	<script>
+		function confirmDelete(id,name){
+
+			abp.message.confirm(
+				'آیا مطمئن هستید که "' + name + '" حذف شود؟',
+				'هشدار',
+				function(confirmed){
+				  if(confirmed){
+					mokebManagerV2.services.mokeb['delete'](id)
+							.done(function () {
+								abp.notify.success('حذف با موفقیت انجام شد');
+								location.reload();
+							})
+							.fail(function (error) {
+								abp.notify.error('خطا در حذف: ' + error.message);
+							});
+				  }
+			});
+		}
+
+	</script>
 }
 
 
@@ -28,7 +49,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+				<h1 class="modal-title fs-5" id="exampleModalLabel">موکب جدید</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<form method="post" class="mt-4">
@@ -43,9 +64,9 @@
 					<div class="mb-3">
 						<label asp-for="Input.Sex" class="form-label"></label>
 						<select asp-for="Input.Sex" class="form-select">
-							<option value="">Select</option>
-							<option value="Male">Male</option>
-							<option value="Female">Female</option>
+							<option value="">@Localizer["Select"]</option>
+							<option value="Male">@Localizer["Male"]</option>
+							<option value="Female">@Localizer["Female"]</option>
 						</select>
 						<span asp-validation-for="Input.Sex" class="text-danger"></span>
 					</div>
@@ -90,7 +111,8 @@
 						<a type="button" href="/Mokeb/Edit?id=@item.Id" class="btn btn-sm btn-primary">ویرایش</a>
 					</td>
 					<td>
-						<a type="button" onclick="deleteItem(@item.Id)" class="btn btn-sm btn-danger">حذف</a>
+						<button onclick="confirmDelete('@item.Id','@item.Name')" class="btn btn-sm btn-danger">حذف</button>
+
 					</td>
 				</tr>
 			}
@@ -98,14 +120,8 @@
 	</table>
 
 	<!-- Pagination -->
-	@* <nav> *@
-	@* 	<ul class="pagination justify-content-center"> *@
-	@* 		@for (int i = 1; i <= (Model.Mokebs?.TotalCount ?? 0); i++) *@
-	@* 		{ *@
-	@* 			<li class="page-item @(i == Model.Page ? "active" : "")"> *@
-	@* 				<a class="page-link" href="?page=@i">@i</a> *@
-	@* 			</li> *@
-	@* 		} *@
-	@* 	</ul> *@
-	@* </nav> *@
+
+	<abp-paginator model="Model.PagerModel" show-info="true"></abp-paginator>
+
+
 </div>

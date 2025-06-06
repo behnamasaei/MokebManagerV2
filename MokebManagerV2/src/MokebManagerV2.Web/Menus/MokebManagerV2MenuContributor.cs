@@ -2,6 +2,7 @@
 using MokebManagerV2.Localization;
 using MokebManagerV2.MultiTenancy;
 using Volo.Abp.Identity.Web.Navigation;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
 using Volo.Abp.UI.Navigation;
@@ -10,6 +11,7 @@ namespace MokebManagerV2.Web.Menus;
 
 public class MokebManagerV2MenuContributor : IMenuContributor
 {
+   
     public async Task ConfigureMenuAsync(MenuConfigurationContext context)
     {
         if (context.Menu.Name == StandardMenus.Main)
@@ -35,10 +37,10 @@ public class MokebManagerV2MenuContributor : IMenuContributor
         );
 
         context.Menu.Items.Insert(
-            0,
+            1,
             new ApplicationMenuItem(
                 MokebManagerV2Menus.Mokeb,
-                L["Menu:Mokeb"],
+                L["Menu:MokebSettings"],
                 "~/mokeb",
                 icon: "fas fa-home",
                 order: 0

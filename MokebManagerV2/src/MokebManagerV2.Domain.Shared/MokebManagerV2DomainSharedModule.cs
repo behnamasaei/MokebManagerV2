@@ -44,20 +44,27 @@ public class MokebManagerV2DomainSharedModule : AbpModule
         {
             options.Resources
                 .Add<MokebManagerV2Resource>("fa")
-                .AddBaseTypes(typeof(AbpValidationResource))
-                .AddVirtualJson("/Localization/MokebManagerV2");
-
-            options.DefaultResourceType = typeof(MokebManagerV2Resource);
+                .AddVirtualJson("/Localization/MokebManagerV2")
+                .AddBaseTypes(typeof(AbpValidationResource));
         });
 
         Configure<AbpLocalizationOptions>(options =>
         {
-            options.Languages.Add(new LanguageInfo("fa", "fa", "Persian"));
+            options.Languages.Add(new LanguageInfo("fa", "fa", "فارسی"));
         });
 
         Configure<AbpExceptionLocalizationOptions>(options =>
         {
             options.MapCodeNamespace("MokebManagerV2", typeof(MokebManagerV2Resource));
         });
+
+
+        Configure<AbpLocalizationOptions>(options =>
+        {
+            options.DefaultResourceType = typeof(MokebManagerV2Resource);
+        });
+
+
+        
     }
 }

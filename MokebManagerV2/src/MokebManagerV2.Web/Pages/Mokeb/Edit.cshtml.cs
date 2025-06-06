@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MokebManagerV2.Dtos;
 using MokebManagerV2.Interfaces;
 using Volo.Abp.ObjectMapping;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MokebManagerV2.Web.Pages.Mokeb
 {
@@ -13,7 +14,7 @@ namespace MokebManagerV2.Web.Pages.Mokeb
         private readonly IMokebAppService _mokebAppService;
         private readonly IObjectMapper _objectMapper;
 
-        [BindProperty(SupportsGet = true)]
+        [BindProperty(SupportsGet = true , Name = "id")]
         public Guid Id { get; set; }
 
         [BindProperty]
@@ -25,12 +26,16 @@ namespace MokebManagerV2.Web.Pages.Mokeb
             _objectMapper = objectMapper;
         }
 
-        public async void OnGet()
+        public async Task OnGetAsync()
         {
-            if (!string.IsNullOrEmpty(Id.ToString()))
+            if (Id != Guid.Empty)
             {
                 var mokeb = await _mokebAppService.GetAsync(id: Id);
                 Input = _objectMapper.Map<MokebDto, CreateUpdateMokebDto>(mokeb);
+            }
+            else
+            {
+                RedirectToPage("/Mokeb/Index");
             }
         }
 

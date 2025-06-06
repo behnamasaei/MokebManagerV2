@@ -24,6 +24,7 @@
         "Location": "مکان",
         "Sex": "جنسیت",
         "Select": "انتخاب",
+        "MaxDurationStay": "حداکثر مدت اقامت",
         "LongWelcomeMessage": "به برنامه خوش آمدید. این یک پروژه‌ی ابتدایی مبتنی بر فریم‌ورک ABP است. برای اطلاعات بیشتر به abp.io مراجعه کنید.",
         "Permission:MokebManagement": "مدیریت موکب‌ها",
         "Permission:MokebManagementCreate": "افزودن موکب",

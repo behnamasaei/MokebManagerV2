@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -19,7 +20,7 @@ namespace MokebManagerV2.Dtos
         public string Location { get; set; }
         public Sex Sex { get; set; }
         public virtual ICollection<Pilgrim> Pilgrims{ get; set; }
-
+        public int DurationStay { get; set; }
         public Guid? TenantId { get; set; }
     }
 }

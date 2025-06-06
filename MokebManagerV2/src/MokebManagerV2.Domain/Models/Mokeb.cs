@@ -9,14 +9,14 @@ using Volo.Abp.MultiTenancy;
 
 namespace MokebManagerV2.Models
 {
-    public class Mokeb : FullAuditedAggregateRoot<Guid> , IMultiTenant
+    public class Mokeb : FullAuditedAggregateRoot<Guid>, IMultiTenant
     {
 
         [Required(ErrorMessage = "نام موکب الزامی است.")]
         [MaxLength(300)]
         public string Name { get; set; }
 
-        [Range(0 , int.MaxValue, ErrorMessage = "ظرفیت باید عددی مثبت باشد.")]
+        [Range(0, int.MaxValue, ErrorMessage = "ظرفیت باید عددی مثبت باشد.")]
         public int Capacity { get; set; }
 
         [MaxLength(300)]
@@ -25,6 +25,10 @@ namespace MokebManagerV2.Models
         public Sex Sex { get; set; }
 
         public virtual ICollection<Pilgrim> Pilgrims { get; set; }
+
+        [Range(0, 100)]
+        [Required]
+        public int DurationStay { get; set; }
 
         public Guid? TenantId { get; set; }
     }

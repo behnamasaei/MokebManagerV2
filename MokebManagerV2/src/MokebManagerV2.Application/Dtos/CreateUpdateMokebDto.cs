@@ -31,6 +31,11 @@ namespace MokebManagerV2.Dtos
         [Required(ErrorMessage = "جنسیت اجباری می باشد.")]
         public Sex Sex { get; set; }
 
+        [Range(0, 100 , ErrorMessage = "مدت اقامت باید عددی بین 0 تا 100 باشد")]
+        [Required(ErrorMessage ="مدت زمان اقامت اجباری است.")]
+        [Display(Name= "MaxDurationStay")]
+        public int DurationStay { get; set; }
+
         public Guid? TenantId { get; set; }
     }
 }

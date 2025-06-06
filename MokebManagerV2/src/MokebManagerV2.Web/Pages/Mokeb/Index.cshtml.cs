@@ -50,25 +50,15 @@ namespace MokebManagerV2.Web.Pages.Mokeb
 
         public async Task<IActionResult> OnPostAsync()
         {
-            for (int i = 50; i < 200; i++)
+            ModelState.Remove(nameof(Page));
+            if (ModelState.IsValid)
             {
-                var mokebDto = await _mokebAppService.CreateAsync(new CreateUpdateMokebDto
+                var mokebDto = await _mokebAppService.CreateAsync(Input);
+                if (mokebDto != null)
                 {
-                    Name = $"موکب {i}",
-                    Sex = Sex.Female,
-                    Capacity = 100 + i
-                });
+                    return RedirectToPage("/Mokeb/Index");
+                }
             }
-
-            //ModelState.Remove(nameof(Page));
-            //if (ModelState.IsValid)
-            //{
-            //    var mokebDto = await _mokebAppService.CreateAsync(Input);
-            //    if (mokebDto != null)
-            //    {
-            //        return RedirectToPage("/Mokeb/Index");
-            //    }
-            //}
             return Page();
         }
 

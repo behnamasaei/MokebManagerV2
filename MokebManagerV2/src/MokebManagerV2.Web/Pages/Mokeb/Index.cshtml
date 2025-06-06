@@ -77,6 +77,11 @@
 						<span asp-validation-for="Input.Capacity" class="text-danger"></span>
 					</div>
 
+					<div class="mb-3">
+						<label asp-for="Input.DurationStay" class="form-label"></label>
+						<input asp-for="Input.DurationStay" class="form-control" type="number" />
+						<span asp-validation-for="Input.DurationStay" class="text-danger"></span>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
@@ -96,6 +101,7 @@
 				<th>نام</th>
 				<th>جنسیت</th>
 				<th>ظرفیت</th>
+				<th>حداکثر مدت اقامت</th>
 				<th>ویرایش</th>
 				<th>حذف</th>
 			</tr>
@@ -107,6 +113,7 @@
 					<td>@item.Name</td>
 					<td>@Localizer[@item.Sex.ToString()]</td>
 					<td>@item.Capacity</td>
+					<td>@item.DurationStay</td>
 					<td>
 						<a type="button" href="/Mokeb/Edit?id=@item.Id" class="btn btn-sm btn-primary">ویرایش</a>
 					</td>

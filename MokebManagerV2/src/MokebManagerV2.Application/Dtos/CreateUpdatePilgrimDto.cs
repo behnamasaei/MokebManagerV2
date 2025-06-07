@@ -21,16 +21,16 @@ namespace MokebManagerV2.Dtos
 
         [MaxLength(50, ErrorMessage = "حداکثر 50 کاراکتر باشد.")]
         [Display(Name = "FullName")]
-        public string FullName { get; set; }
+        public string? FullName { get; set; } = string.Empty;
 
         [MaxLength(15)]
         [Phone(ErrorMessage = "موبایل به درستی وارد شود.")]
         [Display(Name = "PhoneNumber")]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; } = string.Empty;
 
         [MaxLength(20)]
         [Display(Name = "NationalCode")]
-        public string NationalCode { get; set; }
+        public string? NationalCode { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "شماره پاسپورت اجباری می باشد.")]
         [MaxLength(30)]
@@ -42,13 +42,14 @@ namespace MokebManagerV2.Dtos
 
         [Range(0, int.MaxValue, ErrorMessage = "شماره تخت باید عددی مثبت باشد.")]
         [Display(Name = "BedNumber")]
-        public int BedNumber { get; set; }
+        public int? BedNumber { get; set; }
 
         [Required(ErrorMessage = "موکب انتخاب شود.")]
+        [Display(Name = "Mokeb")]
         public Guid MokebId { get; set; }
 
         [Display(Name = "Image")]
-        public string Image { get; set; }
+        public string? Image { get; set; } = string.Empty;
 
         [Display(Name = "EntryDate")]
         public DateTime EntryDate { get; set; }
@@ -57,10 +58,10 @@ namespace MokebManagerV2.Dtos
         public DateTime ForceExitDate { get; set; }
 
         [Display(Name = "ExitDate")]
-        public DateTime ExitDate { get; set; }
+        public DateTime? ExitDate { get; set; }
 
         [Display(Name = "Traffic")]
-        public virtual List<DateTime> Traffic { get; set; }
+        public List<DateTime>? Traffic { get; set; } = new();
 
         public Guid? TenantId { get; set; }
     }

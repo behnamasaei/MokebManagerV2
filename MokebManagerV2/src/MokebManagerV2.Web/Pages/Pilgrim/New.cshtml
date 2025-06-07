@@ -11,17 +11,93 @@
 }
 
 @section Scripts {
+	<partial name="_ValidationScriptsPartial" />
 	@* Document jalali datepicker: https://github.com/majidh1/JalaliDatePicker *@
 	<script type="text/javascript" src="~/libs/majidh1/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
 	<script>
 		jalaliDatepicker.startWatch();
 
+		function changeMokeb(event){
+			const selectedOption = event.options[event.selectedIndex];
+			const sex = selectedOption.getAttribute("sex");
+			console.log(sex);
+			const sexInput = document.getElementById('sexInput');
+			if (sexInput) {
+				sexInput.value = sex || "";
+			}
+
+			fetch('/pilgrim/new?handler=MokebData&id=' + event.value)
+				.then(response => {
+					if (!response.ok) throw new Error("Network error");
+					return response.json();
+				})
+				.then(mokeb => {
+					console.log(mokeb);
+					document.getElementById('forceExitDateInput').value = mokeb.forceExitDate;
+				})
+				.catch(err => console.error("Error fetching mokeb:", err));
+		}
 	</script>
 }
 
 
 <form method="post">
-	<div class="row">
+	<div class="row mb-5">
+
+		<div class="col-12 col-md-6">
+			<label asp-for="Input.Barcode" class="form-label"></label>
+			<input asp-for="Input.Barcode" type="text" class="form-control" checked>
+			<span asp-validation-for="Input.Barcode" class="text-danger"></span>
+		</div>
+
+		<div class="col-12 col-md-6">
+			<label asp-for="Input.PassportNo" class="form-label"></label>
+			<input asp-for="Input.PassportNo" class="form-control">
+			<span asp-validation-for="Input.PassportNo" class="text-danger"></span>
+		</div>
+
+		<div class="col-12 col-md-6">
+			<label asp-for="Input.MokebId" class="form-label"></label>
+			<select asp-for="Input.MokebId" class="form-select" onchange="changeMokeb(this)">
+				<option value="">@Localizer["Select"]</option>
+				@foreach (var item in Model.Mokebs)
+				{
+					<option sex="@item.Sex" value="@item.Id">@item.Name</option>
+				}
+			</select>
+			<span asp-validation-for="Input.MokebId" class="text-danger"></span>
+		</div>
+
+		<div class="col-12 col-md-6">
+			<label asp-for="Input.Sex" class="form-label"></label>
+			<select asp-for="Input.Sex" class="form-select" id="sexInput">
+				<option value="">@Localizer["Select"]</option>
+				<option value="Male">@Localizer["Male"]</option>
+				<option value="Female">@Localizer["Female"]</option>
+			</select>
+			<span asp-validation-for="Input.Sex" class="text-danger"></span>
+		</div>
+
+		<div class="col-12 col-md-6">
+			<label asp-for="Input.EntryDate" class="form-label"></label>
+			<input disabled data-jdp type="text" asp-for="Input.EntryDate" class="form-control" style="direction:ltr">
+			<span asp-validation-for="Input.EntryDate" class="text-danger"></span>
+		</div>
+
+		<div class="col-12 col-md-6">
+			<label asp-for="Input.ForceExitDate" class="form-label"></label>
+			<input data-jdp type="text" asp-for="Input.ForceExitDate" class="form-control" id="forceExitDateInput" style="direction:ltr" value="">
+			<span asp-validation-for="Input.ForceExitDate" class="text-danger"></span>
+		</div>
+
+
+		<div class="col-12 col-md-6">
+			<label asp-for="Input.BedNumber" class="form-label"></label>
+			<input asp-for="Input.BedNumber" class="form-control">
+			<span asp-validation-for="Input.BedNumber" class="text-danger"></span>
+		</div>
+
+
 		<div class="col-12 col-md-6">
 			<label asp-for="Input.FullName" class="form-label"></label>
 			<input asp-for="Input.FullName" type="text" class="form-control">
@@ -40,45 +116,9 @@
 			<span asp-validation-for="Input.NationalCode" class="text-danger"></span>
 		</div>
 
-		<div class="col-12 col-md-6">
-			<label asp-for="Input.PassportNo" class="form-label"></label>
-			<input asp-for="Input.PassportNo" class="form-control">
-			<span asp-validation-for="Input.PassportNo" class="text-danger"></span>
-		</div>
 
-		<div class="col-12 col-md-6">
-			<label asp-for="Input.Sex" class="form-label"></label>
-			<select asp-for="Input.Sex" class="form-select">
-				<option value="">@Localizer["Select"]</option>
-				<option value="Male">@Localizer["Male"]</option>
-				<option value="Female">@Localizer["Female"]</option>
-			</select>
-			<span asp-validation-for="Input.Sex" class="text-danger"></span>
-		</div>
-
-		<div class="col-12 col-md-6">
-			<label asp-for="Input.BedNumber" class="form-label"></label>
-			<input asp-for="Input.BedNumber" class="form-control">
-			<span asp-validation-for="Input.BedNumber" class="text-danger"></span>
-		</div>
-
-		<div class="col-12 col-md-6">
-			<label asp-for="Input.EntryDate" class="form-label"></label>
-			<input disabled data-jdp type="text" asp-for="Input.EntryDate" class="form-control">
-			<span asp-validation-for="Input.EntryDate" class="text-danger"></span>
-		</div>
-
-		<div class="col-12 col-md-6">
-			<label asp-for="Input.ForceExitDate" class="form-label"></label>
-			<input disabled data-jdp asp-for="Input.ForceExitDate" class="form-control">
-			<span asp-validation-for="Input.ForceExitDate" class="text-danger"></span>
-		</div>
-
-		<div class="col-12 col-md-6">
-			<label asp-for="Input.ExitDate" class="form-label"></label>
-			<input disabled data-jdp asp-for="Input.ExitDate" class="form-control">
-			<span asp-validation-for="Input.ExitDate" class="text-danger"></span>
-		</div>
+		<input type="hidden" asp-for="Input.TenantId" />
 	</div>
+	<button type="submit" class="btn btn-primary">ذخیره</button>
 </form>
 

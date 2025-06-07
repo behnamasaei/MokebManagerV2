@@ -13,6 +13,12 @@ namespace MokebManagerV2.Dtos
     [Serializable]
     public class CreateUpdatePilgrimDto : ExtensibleObject, IMultiTenant
     {
+
+        [Required(ErrorMessage = "بارکد اجباری می باشد.")]
+        [Display(Name ="Barcode")]
+        public string Barcode { get; set; }
+
+
         [MaxLength(50, ErrorMessage = "حداکثر 50 کاراکتر باشد.")]
         [Display(Name = "FullName")]
         public string FullName { get; set; }

@@ -8,6 +8,9 @@ namespace MokebManagerV2.Models
 {
     public class Pilgrim : FullAuditedAggregateRoot<Guid>, IMultiTenant
     {
+        [Required]
+        public string Barcode { get; set; }
+
         [MaxLength(100 , ErrorMessage = "حداکثر 100 کاراکتر باشد.")]
         public string FullName { get; set; }
         

@@ -42,6 +42,7 @@ public class MokebManagerV2ApplicationAutoMapperProfile : Profile
 
         CreateMap<Pilgrim, PilgrimDto>()
             .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Barcode, act => act.MapFrom(src => src.Barcode))
             .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
             .ForMember(dest => dest.EntryDate, act => act.MapFrom(src => src.EntryDate))
             .ForMember(dest => dest.ExitDate, act => act.MapFrom(src => src.ExitDate))
@@ -63,6 +64,7 @@ public class MokebManagerV2ApplicationAutoMapperProfile : Profile
 
         CreateMap<CreateUpdatePilgrimDto, PilgrimDto>()
             .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
+            .ForMember(dest => dest.Barcode, act => act.MapFrom(src => src.Barcode))
             .ForMember(dest => dest.EntryDate, act => act.MapFrom(src => src.EntryDate))
             .ForMember(dest => dest.ExitDate, act => act.MapFrom(src => src.ExitDate))
             .ForMember(dest => dest.ForceExitDate, act => act.MapFrom(src => src.ForceExitDate))
@@ -82,6 +84,7 @@ public class MokebManagerV2ApplicationAutoMapperProfile : Profile
 
         CreateMap<Pilgrim, CreateUpdatePilgrimDto>()
             .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
+            .ForMember(dest => dest.Barcode, act => act.MapFrom(src => src.Barcode))
             .ForMember(dest => dest.EntryDate, act => act.MapFrom(src => src.EntryDate))
             .ForMember(dest => dest.ExitDate, act => act.MapFrom(src => src.ExitDate))
             .ForMember(dest => dest.ForceExitDate, act => act.MapFrom(src => src.ForceExitDate))

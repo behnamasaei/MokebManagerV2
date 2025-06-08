@@ -6,6 +6,10 @@
     "@abp/aspnetcore.mvc.ui.theme.leptonxlite": "~4.2.0",
     "@abp/aspnetcore.mvc.ui.theme.shared": "^9.2.0",
     "@majidh1/jalalidatepicker": "^0.9.11",
-    "gulp": "^5.0.1"
+    "gulp": "^5.0.1",
+    "jalaali-js": "^1.2.8"
+  },
+  "devDependencies": {
+    "html5-qrcode": "^2.3.8"
   }
 }

@@ -12,10 +12,41 @@
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />
+	<script src="~/libs/html5-qrcode/html5-qrcode.min.js/html5-qrcode.min.js" type="text/javascript"></script>
+	<script src="~/libs/jalaali-js/jalaali.min.js" type="text/javascript"></script>
+
 	@* Document jalali datepicker: https://github.com/majidh1/JalaliDatePicker *@
 	<script type="text/javascript" src="~/libs/majidh1/jalalidatepicker/dist/jalalidatepicker.min.js"></script>
 	<script>
 		jalaliDatepicker.startWatch();
+
+
+		function changeForceExitDate(event){
+			const entryDateJalali = document.getElementById('entryDateInput').value;
+			const [datePart, timePart] = entryDateJalali.split(" ");
+			const [entryjy, entryjm, entryjd] = datePart.split("/").map(Number);
+
+			const forceExitDateJalali = document.getElementById('forceExitDateInput').value;
+			const [exitDatePart, ExittimePart] = forceExitDateJalali.split(" ");
+			const [eixtjy, eixtjm, eixtjd] = exitDatePart.split("/").map(Number);
+
+			const entryDate = jalaali.jalaaliToDateObject(entryjy,entryjm,entryjd);
+			const forceExitDate = jalaali.jalaaliToDateObject(eixtjy, eixtjm, eixtjd);
+
+
+
+			if (forceExitDate <= entryDate) {
+				alert("تاریخ خروج اجباری نمی تواند قبل از تاریخ ورود باشد.");
+				document.getElementById('forceExitDateInput').value = "";
+				return;
+			}
+			const diffTime = Math.abs(forceExitDate - entryDate);
+			// تبدیل به روز
+			const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+			document.getElementById('spanDuration').innerHTML = "مدت اقامت: "+diffDays+" روز";
+		}
+
+		
 
 		function changeMokeb(event){
 			const selectedOption = event.options[event.selectedIndex];
@@ -34,19 +65,87 @@
 				.then(mokeb => {
 					console.log(mokeb);
 					document.getElementById('forceExitDateInput').value = mokeb.forceExitDate;
+					changeForceExitDate();
 				})
 				.catch(err => console.error("Error fetching mokeb:", err));
 		}
 	</script>
+	<script>
+				// -- Configurable params --
+		const MIN_FPS = 2;
+		const MAX_FPS = 15;
+		const QRBOX_SIZE = 250;
+		const DEBOUNCE_MS = 2000;
+
+		// -- State for debouncing & fps control --
+		let lastDecoded = null;
+		let lastDecodeTime = 0;
+		let currentFps = MAX_FPS;
+
+		// -- Initialize low-level scanner --
+		const html5Qr = new Html5Qrcode(/* element id = */ "reader");
+
+		// -- Success handler with debounce & fps adjust --
+		async function onSuccess(decodedText, decodedResult) {
+		  const now = Date.now();
+
+		  // Debounce repeated scans
+		  if (decodedText === lastDecoded && (now - lastDecodeTime) < DEBOUNCE_MS) {
+			return;
+		  }
+		  lastDecoded = decodedText;
+		  lastDecodeTime = now;
+		const input = document.getElementById('barcodInput');
+		if (!input) {
+		  console.error('barcodInput not found in DOM');
+		  return;
+		}
+		input.value = decodedText;
+		  console.log(`✔️ Scanned: ${decodedText}`, decodedResult);
+
+		  // If you only want one scan, stop here:
+		  // await html5Qr.stop();
+
+		  // Otherwise, you might lower fps for a bit if idle
+		  currentFps = MIN_FPS;
+		  await html5Qr.clear(); // clear overlays
+		  setTimeout(() => startScanning(), 1000); // bump fps back up after 1 s
+		}
+
+		// -- Failure handler (ignore most errors) --
+		function onFailure(error) {
+		  // Only warn on serious errors
+		  if (error.name !== Html5QrcodeErrorTypes.NO_CODE_FOUND) {
+			console.warn(`Scan error: ${error}`);
+		  }
+		}
+
+		// -- Start (or restart) scanning with current FPS & box --
+		function startScanning() {
+		  html5Qr.start(
+			{ facingMode: "environment" },            // camera config
+			{ fps: currentFps, qrbox: QRBOX_SIZE },   // scan config
+			onSuccess,
+			onFailure
+		  ).catch(err => {
+			console.error("Failed to start scanner:", err);
+		  });
+		}
+
+		// -- Kick things off --
+		startScanning();
+
+	</script>
 }
 
+<div class="mb-5" id="reader" width="600px"></div>
 
 <form method="post">
-	<div class="row mb-5">
+	<div class="row gx-5 gy-3 mb-5">
 
 		<div class="col-12 col-md-6">
 			<label asp-for="Input.Barcode" class="form-label"></label>
-			<input asp-for="Input.Barcode" type="text" class="form-control" checked>
+			<input asp-for="Input.Barcode" type="text" class="form-control" id="barcodInput" />
 			<span asp-validation-for="Input.Barcode" class="text-danger"></span>
 		</div>
 
@@ -80,14 +179,15 @@
 
 		<div class="col-12 col-md-6">
 			<label asp-for="Input.EntryDate" class="form-label"></label>
-			<input disabled data-jdp type="text" asp-for="Input.EntryDate" class="form-control" style="direction:ltr">
+			<input disabled data-jdp type="text" asp-for="Input.EntryDate" class="form-control" style="direction:ltr" id="entryDateInput">
 			<span asp-validation-for="Input.EntryDate" class="text-danger"></span>
 		</div>
 
 		<div class="col-12 col-md-6">
 			<label asp-for="Input.ForceExitDate" class="form-label"></label>
-			<input data-jdp type="text" asp-for="Input.ForceExitDate" class="form-control" id="forceExitDateInput" style="direction:ltr" value="">
+			<input data-jdp type="text" asp-for="Input.ForceExitDate" class="form-control" onchange="changeForceExitDate()" id="forceExitDateInput" style="direction:ltr">
 			<span asp-validation-for="Input.ForceExitDate" class="text-danger"></span>
+			<span class="text-secondary" id="spanDuration"></span>
 		</div>
 
 

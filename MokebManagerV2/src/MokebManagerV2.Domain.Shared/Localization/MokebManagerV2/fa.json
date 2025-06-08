@@ -26,6 +26,7 @@
         "Sex": "جنسیت",
         "Select": "انتخاب",
         "Barcode": "بارکد",
+        "BedId": "شماره تخت",
         "MaxDurationStay": "حداکثر مدت اقامت",
         "LongWelcomeMessage": "به برنامه خوش آمدید. این یک پروژه‌ی ابتدایی مبتنی بر فریم‌ورک ABP است. برای اطلاعات بیشتر به abp.io مراجعه کنید.",
         "Permission:MokebManagement": "مدیریت موکب‌ها",

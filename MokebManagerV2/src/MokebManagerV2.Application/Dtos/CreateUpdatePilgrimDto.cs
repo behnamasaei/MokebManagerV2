@@ -40,10 +40,6 @@ namespace MokebManagerV2.Dtos
         [Display(Name = "Sex")]
         public Sex Sex { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "شماره تخت باید عددی مثبت باشد.")]
-        [Display(Name = "BedNumber")]
-        public int? BedNumber { get; set; }
-
         [Required(ErrorMessage = "موکب انتخاب شود.")]
         [Display(Name = "Mokeb")]
         public Guid MokebId { get; set; }
@@ -62,6 +58,9 @@ namespace MokebManagerV2.Dtos
 
         [Display(Name = "Traffic")]
         public List<DateTime>? Traffic { get; set; } = new();
+
+        [Display(Name = "BedNumber")]
+        public Guid BedId { get; set; }
 
         public Guid? TenantId { get; set; }
     }

@@ -19,9 +19,10 @@ namespace MokebManagerV2.Dtos
         public string NationalCode { get; set; }
         public string PassportNo { get; set; }
         public Sex Sex { get; set; }
-        public int BedNumber { get; set; }
+        public Guid BedId { get; set; }
+        public virtual BedDto Bed{ get; set; }
         public Guid MokebId { get; set; }
-        public virtual Mokeb Mokeb { get; set; }
+        public virtual MokebDto Mokeb { get; set; }
         public string Image { get; set; }
         public DateTime EntryDate { get; set; }
         public DateTime ForceExitDate { get; set; }

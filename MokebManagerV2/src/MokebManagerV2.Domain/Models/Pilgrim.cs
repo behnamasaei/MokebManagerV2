@@ -34,6 +34,9 @@ namespace MokebManagerV2.Models
         public Guid MokebId { get; set; }
         public virtual Mokeb? Mokeb { get; set; }
 
+        public Guid BedId { get; set; }
+        public virtual Bed Bed { get; set; }
+
         public string? Image { get; set; }
         public DateTime EntryDate { get; set; }
         public DateTime ForceExitDate { get; set; }

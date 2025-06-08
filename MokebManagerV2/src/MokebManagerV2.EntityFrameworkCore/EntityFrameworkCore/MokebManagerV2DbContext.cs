@@ -59,6 +59,7 @@ public class MokebManagerV2DbContext :
 
     public DbSet<Mokeb> Mokebs { get; set; }
     public DbSet<Pilgrim> Pilgrims { get; set; }
+    public DbSet<Bed> Beds { get; set; }
 
     #endregion
 
@@ -97,9 +98,18 @@ public class MokebManagerV2DbContext :
         {
             b.ToTable(MokebManagerV2Consts.DbTablePrefix + "Pilgrim", MokebManagerV2Consts.DbSchema);
             b.HasOne(x => x.Mokeb).WithMany(x => x.Pilgrims).HasForeignKey(x => x.MokebId);
+            b.HasOne(x => x.Bed).WithOne(x => x.Pilgrim).HasForeignKey<Bed>(x => x.PilgrimId);
             b.HasIndex(x => x.PassportNo).IsUnique();
             b.HasIndex(x => x.NationalCode).IsUnique();
             b.HasIndex(x => x.PhoneNumber).IsUnique();
+            b.ConfigureByConvention();
+        });
+
+        builder.Entity<Bed>(b =>
+        {
+            b.ToTable(MokebManagerV2Consts.DbTablePrefix + "Bed", MokebManagerV2Consts.DbSchema);
+            b.HasKey(x => x.Id);
+            b.HasOne(x => x.Pilgrim).WithOne(x => x.Bed).HasForeignKey<Pilgrim>(x => x.BedId);
             b.ConfigureByConvention();
         });
     }

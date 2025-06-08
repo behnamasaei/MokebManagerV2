@@ -10,11 +10,13 @@ using Volo.Abp.MultiTenancy;
 
 namespace MokebManagerV2.Dtos
 {
-    public class BedDto :EntityDto<Guid>, IMultiTenant
+    public class BedDto : EntityDto<Guid>, IMultiTenant
     {
         public bool IsUsed { get; set; }
         public Guid PilgrimId { get; set; }
         public virtual PilgrimDto Pilgrim { get; set; }
+        public Guid MokebId { get; set; }
+        public virtual MokebDto Mokeb { get; set; }
         public Guid? TenantId { get; set; }
     }
 }

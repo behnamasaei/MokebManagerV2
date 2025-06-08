@@ -16,6 +16,11 @@ namespace MokebManagerV2.Models
         [Required]
         public Guid PilgrimId { get; set; }
         public virtual Pilgrim Pilgrim { get; set; }
+
+        [Required]
+        public Guid MokebId { get; set; }
+        public virtual Mokeb Mokeb { get; set; }
+
         public Guid? TenantId { get; set; }
     }
 }

@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.MultiTenancy;
 
 namespace MokebManagerV2.Models
 {
-    public class Bed : IMultiTenant
+    public class Bed : Entity<Guid> , IMultiTenant
     {
-        public Guid Id { get; set; }
         public bool IsUsed { get; set; }
 
         [Required]

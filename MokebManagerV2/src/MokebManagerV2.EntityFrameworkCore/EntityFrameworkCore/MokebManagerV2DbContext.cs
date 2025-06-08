@@ -89,7 +89,14 @@ public class MokebManagerV2DbContext :
         builder.Entity<Mokeb>(b =>
         {
             b.ToTable(MokebManagerV2Consts.DbTablePrefix + "Mokeb", MokebManagerV2Consts.DbSchema);
-            b.HasMany(x => x.Pilgrims).WithOne(x => x.Mokeb).HasForeignKey(x => x.MokebId);
+            b.HasMany(x => x.Pilgrims).WithOne(x => x.Mokeb)
+                .HasForeignKey(x => x.MokebId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            b.HasMany(x => x.Beds).WithOne(x => x.Mokeb)
+                .HasForeignKey(x => x.MokebId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             b.HasIndex(x => x.Name).IsUnique().HasFilter("[IsDeleted] = 0");
             b.ConfigureByConvention(); //auto configure for the base class props
         });
@@ -97,8 +104,13 @@ public class MokebManagerV2DbContext :
         builder.Entity<Pilgrim>(b =>
         {
             b.ToTable(MokebManagerV2Consts.DbTablePrefix + "Pilgrim", MokebManagerV2Consts.DbSchema);
-            b.HasOne(x => x.Mokeb).WithMany(x => x.Pilgrims).HasForeignKey(x => x.MokebId);
-            b.HasOne(x => x.Bed).WithOne(x => x.Pilgrim).HasForeignKey<Bed>(x => x.PilgrimId);
+            b.HasOne(x => x.Mokeb).WithMany(x => x.Pilgrims)
+                .HasForeignKey(x => x.MokebId);
+
+            b.HasOne(x => x.Bed).WithOne(x => x.Pilgrim)
+                .HasForeignKey<Bed>(x => x.PilgrimId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             b.HasIndex(x => x.PassportNo).IsUnique();
             b.HasIndex(x => x.NationalCode).IsUnique();
             b.HasIndex(x => x.PhoneNumber).IsUnique();
@@ -108,8 +120,14 @@ public class MokebManagerV2DbContext :
         builder.Entity<Bed>(b =>
         {
             b.ToTable(MokebManagerV2Consts.DbTablePrefix + "Bed", MokebManagerV2Consts.DbSchema);
-            b.HasKey(x => x.Id);
-            b.HasOne(x => x.Pilgrim).WithOne(x => x.Bed).HasForeignKey<Pilgrim>(x => x.BedId);
+            b.HasOne(x => x.Pilgrim).WithOne(x => x.Bed)
+                .HasForeignKey<Bed>(x => x.PilgrimId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            b.HasOne(x => x.Mokeb).WithMany(x => x.Beds)
+                .HasForeignKey(x => x.MokebId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             b.ConfigureByConvention();
         });
     }

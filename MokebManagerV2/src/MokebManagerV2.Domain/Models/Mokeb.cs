@@ -24,12 +24,13 @@ namespace MokebManagerV2.Models
 
         public Sex Sex { get; set; }
 
-        public virtual ICollection<Pilgrim> Pilgrims { get; set; }
 
         [Range(0, 100)]
         [Required]
         public int DurationStay { get; set; }
 
+        public virtual ICollection<Pilgrim> Pilgrims { get; set; }
+        public virtual ICollection<Bed> Beds { get; set; }
         public Guid? TenantId { get; set; }
     }
 }

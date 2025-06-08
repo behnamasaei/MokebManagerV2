@@ -20,6 +20,8 @@ namespace MokebManagerV2.Dtos
         public string Location { get; set; }
         public Sex Sex { get; set; }
         public virtual ICollection<PilgrimDto> Pilgrims{ get; set; }
+        public virtual ICollection<BedDto> Beds { get; set; }
+
         public int DurationStay { get; set; }
         public Guid? TenantId { get; set; }
     }

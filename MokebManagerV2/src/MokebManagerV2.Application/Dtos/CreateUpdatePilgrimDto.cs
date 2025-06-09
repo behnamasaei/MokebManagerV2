@@ -60,7 +60,10 @@ namespace MokebManagerV2.Dtos
         public List<DateTime>? Traffic { get; set; } = new();
 
         [Display(Name = "BedNumber")]
-        public Guid BedId { get; set; }
+        public Guid? BedId { get; set; }
+
+        [Display(Name = "BedNumber")]
+        public int BedNumber { get; set; }
 
         public Guid? TenantId { get; set; }
     }

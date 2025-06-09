@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace MokebManagerV2.Migrations
 {
     [DbContext(typeof(MokebManagerV2DbContext))]
-    [Migration("20250607144404_update nullable pilgrim")]
-    partial class updatenullablepilgrim
+    [Migration("20250608201456_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,34 @@ namespace MokebManagerV2.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("MokebManagerV2.Models.Bed", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("BedNumber")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("MokebId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PilgrimId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("TenantId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MokebId");
+
+                    b.HasIndex("PilgrimId")
+                        .IsUnique();
+
+                    b.ToTable("AppBed", (string)null);
+                });
 
             modelBuilder.Entity("MokebManagerV2.Models.Mokeb", b =>
                 {
@@ -114,6 +142,9 @@ namespace MokebManagerV2.Migrations
                     b.Property<string>("Barcode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("BedId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("BedNumber")
                         .HasColumnType("int");
@@ -1972,12 +2003,31 @@ namespace MokebManagerV2.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
+            modelBuilder.Entity("MokebManagerV2.Models.Bed", b =>
+                {
+                    b.HasOne("MokebManagerV2.Models.Mokeb", "Mokeb")
+                        .WithMany("Beds")
+                        .HasForeignKey("MokebId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MokebManagerV2.Models.Pilgrim", "Pilgrim")
+                        .WithOne("Bed")
+                        .HasForeignKey("MokebManagerV2.Models.Bed", "PilgrimId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Mokeb");
+
+                    b.Navigation("Pilgrim");
+                });
+
             modelBuilder.Entity("MokebManagerV2.Models.Pilgrim", b =>
                 {
                     b.HasOne("MokebManagerV2.Models.Mokeb", "Mokeb")
                         .WithMany("Pilgrims")
                         .HasForeignKey("MokebId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Mokeb");
@@ -2127,7 +2177,14 @@ namespace MokebManagerV2.Migrations
 
             modelBuilder.Entity("MokebManagerV2.Models.Mokeb", b =>
                 {
+                    b.Navigation("Beds");
+
                     b.Navigation("Pilgrims");
+                });
+
+            modelBuilder.Entity("MokebManagerV2.Models.Pilgrim", b =>
+                {
+                    b.Navigation("Bed");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

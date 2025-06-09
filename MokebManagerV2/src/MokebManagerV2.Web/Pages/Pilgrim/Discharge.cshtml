@@ -1,0 +1,21 @@
+﻿@page
+@model MokebManagerV2.Web.Pages.Pilgrim.DischargeModel
+@{
+}
+
+
+<form method="post">
+	<div class="row gx-5 gy-3 mb-5">
+
+		<div class="col-12 col-md-6">
+			<label asp-for="PassportOrBarcode" class="form-label"></label>
+			<input asp-for="PassportOrBarcode" type="text" class="form-control" id="barcodInput" />
+			<span asp-validation-for="PassportOrBarcode" class="text-danger"></span>
+		</div>
+
+	</div>
+
+	<button type="submit" class="btn btn-primary">ثبت</button>
+
+
+</form>

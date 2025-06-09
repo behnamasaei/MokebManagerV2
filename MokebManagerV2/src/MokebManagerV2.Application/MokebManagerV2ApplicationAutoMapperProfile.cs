@@ -58,6 +58,7 @@ public class MokebManagerV2ApplicationAutoMapperProfile : Profile
             .ForMember(dest => dest.MokebId, act => act.MapFrom(src => src.MokebId))
             .ForMember(dest => dest.Image, act => act.MapFrom(src => src.Image))
             .ForMember(dest => dest.TenantId, act => act.MapFrom(src => src.TenantId))
+            .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
             .ReverseMap()
             .MapExtraProperties();
 
@@ -77,6 +78,7 @@ public class MokebManagerV2ApplicationAutoMapperProfile : Profile
             .ForMember(dest => dest.MokebId, act => act.MapFrom(src => src.MokebId))
             .ForMember(dest => dest.Image, act => act.MapFrom(src => src.Image))
             .ForMember(dest => dest.TenantId, act => act.MapFrom(src => src.TenantId))
+            .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
             .ReverseMap()
             .MapExtraProperties();
 
@@ -96,32 +98,37 @@ public class MokebManagerV2ApplicationAutoMapperProfile : Profile
             .ForMember(dest => dest.MokebId, act => act.MapFrom(src => src.MokebId))
             .ForMember(dest => dest.Image, act => act.MapFrom(src => src.Image))
             .ForMember(dest => dest.TenantId, act => act.MapFrom(src => src.TenantId))
+            .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
             .ReverseMap()
             .MapExtraProperties();
 
 
         CreateMap<Bed, BedDto>()
             .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
-            .ForMember(dest => dest.IsUsed, act => act.MapFrom(src => src.IsUsed))
             .ForMember(dest => dest.PilgrimId, act => act.MapFrom(src => src.PilgrimId))
             .ForMember(dest => dest.TenantId, act => act.MapFrom(src => src.TenantId))
             .ForMember(dest => dest.Mokeb, act => act.MapFrom(src => src.Mokeb))
             .ForMember(dest => dest.MokebId, act => act.MapFrom(src => src.MokebId))
             .ForMember(dest => dest.Pilgrim, act => act.MapFrom(src => src.Pilgrim))
-            .ReverseMap();
+            .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
+            .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => src.IsDeleted))
+            .ReverseMap()
+            .MapExtraProperties();
 
         CreateMap<CreateUpdateBedDto, BedDto>()
-            .ForMember(dest => dest.IsUsed, act => act.MapFrom(src => src.IsUsed))
             .ForMember(dest => dest.PilgrimId, act => act.MapFrom(src => src.PilgrimId))
             .ForMember(dest => dest.TenantId, act => act.MapFrom(src => src.TenantId))
             .ForMember(dest => dest.MokebId, act => act.MapFrom(src => src.MokebId))
+            .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
+            .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => src.IsDeleted))
             .ReverseMap();
 
         CreateMap<Bed, CreateUpdateBedDto>()
-            .ForMember(dest => dest.IsUsed, act => act.MapFrom(src => src.IsUsed))
             .ForMember(dest => dest.PilgrimId, act => act.MapFrom(src => src.PilgrimId))
             .ForMember(dest => dest.TenantId, act => act.MapFrom(src => src.TenantId))
             .ForMember(dest => dest.MokebId, act => act.MapFrom(src => src.MokebId))
+            .ForMember(dest => dest.BedNumber, act => act.MapFrom(src => src.BedNumber))
+            .ForMember(dest => dest.IsDeleted, act => act.MapFrom(src => src.IsDeleted))
             .ReverseMap();
     }
 }

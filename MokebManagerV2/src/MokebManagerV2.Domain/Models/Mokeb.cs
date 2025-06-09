@@ -19,6 +19,9 @@ namespace MokebManagerV2.Models
         [Range(0, int.MaxValue, ErrorMessage = "ظرفیت باید عددی مثبت باشد.")]
         public int Capacity { get; set; }
 
+        [Range(0, int.MaxValue)]
+        public int FreeCapacity { get; set; }
+
         [MaxLength(300)]
         public string Location { get; set; }
 

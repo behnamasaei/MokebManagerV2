@@ -20,16 +20,42 @@ namespace MokebManagerV2.Services
         CrudAppService<Mokeb, MokebDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateMokebDto, CreateUpdateMokebDto>,
         IMokebAppService
     {
-        private readonly IRepository<Mokeb, Guid> _mokebRepository;
+        private readonly IBedAppService _bedAppService;
 
-        public MokebAppService(IRepository<Mokeb, Guid> repository, IDataSeeder dataSeeder) : base(repository)
+        public MokebAppService(IRepository<Mokeb, Guid> repository, IBedAppService bedAppService) : base(repository)
         {
             GetPolicyName = MokebsPermissions.Default;
             GetListPolicyName = MokebsPermissions.Default;
             CreatePolicyName = MokebsPermissions.Create;
             UpdatePolicyName = MokebsPermissions.Edit;
             DeletePolicyName = MokebsPermissions.Delete;
+            _bedAppService = bedAppService;
         }
 
+        public override async Task<MokebDto> CreateAsync(CreateUpdateMokebDto input)
+        {
+            input.FreeCapacity = input.Capacity;
+            return await base.CreateAsync(input);
+        }
+
+        public override async Task<MokebDto> UpdateAsync(Guid id, CreateUpdateMokebDto input)
+        {
+            var oldMokeb = await base.GetAsync(id);
+
+            if (input.Capacity > oldMokeb.Capacity)
+            {
+                input.FreeCapacity += (input.Capacity - oldMokeb.Capacity);
+            }
+            else if (input.Capacity < oldMokeb.Capacity && input.FreeCapacity - (oldMokeb.Capacity - input.Capacity) > 0)
+            {
+                input.FreeCapacity -= (oldMokeb.Capacity - input.Capacity);
+            }
+            else
+            {
+                // not have freeCapacity to minuse
+            }
+
+            return await base.UpdateAsync(id, input);
+        }
     }
 }

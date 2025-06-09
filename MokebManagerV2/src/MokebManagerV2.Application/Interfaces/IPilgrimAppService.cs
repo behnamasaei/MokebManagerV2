@@ -16,5 +16,8 @@ namespace MokebManagerV2.Interfaces
         CreateUpdatePilgrimDto,
         CreateUpdatePilgrimDto>
     {
+
+        public Task DischargeAsync(string passportOrBarcode);
+
     }
 }

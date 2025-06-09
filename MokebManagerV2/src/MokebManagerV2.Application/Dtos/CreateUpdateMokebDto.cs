@@ -23,6 +23,9 @@ namespace MokebManagerV2.Dtos
         [Display(Name="Capacity")]
         public int Capacity { get; set; }
 
+        [Range(0, int.MaxValue)]
+        public int FreeCapacity { get; set; }
+
         [MaxLength(300)]
         [Display(Name="Location")]
         public string Location { get; set; } = string.Empty;

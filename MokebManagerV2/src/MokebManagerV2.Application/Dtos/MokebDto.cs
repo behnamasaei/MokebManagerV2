@@ -17,6 +17,7 @@ namespace MokebManagerV2.Dtos
     {
         public string Name { get; set; }
         public int Capacity { get; set; }
+        public int FreeCapacity { get; set; }
         public string Location { get; set; }
         public Sex Sex { get; set; }
         public virtual ICollection<PilgrimDto> Pilgrims{ get; set; }

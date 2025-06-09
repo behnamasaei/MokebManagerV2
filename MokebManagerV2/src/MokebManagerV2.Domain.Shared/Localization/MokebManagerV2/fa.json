@@ -16,6 +16,8 @@
         "NationalCode": "شماره ملی",
         "PassportNo": "شماره پاسپورت",
         "BedNumber": "شماره تخت",
+        "PassportOrBarcode": "پاسپورت یا بارکد",
+        "PilgrimDischarge": "ترخیص زائر",
         "Image": "عکس",
         "EntryDate": "تاریخ ورود",
         "ForceExitDate": "تاریخ خروج قطعی",

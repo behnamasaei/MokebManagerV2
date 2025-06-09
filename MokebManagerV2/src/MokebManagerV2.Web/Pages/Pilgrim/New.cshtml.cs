@@ -52,7 +52,8 @@ namespace MokebManagerV2.Web.Pages.Pilgrim
             Input.ForceExitDate = DateTime.Today.AddDays(MokebSelected.DurationStay).AddHours(10);
             return new JsonResult(new
             {
-                forceExitDate = Input.ForceExitDate.ToString("yyyy/MM/dd HH:mm:ss")
+                forceExitDate = Input.ForceExitDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                freeCapacity = MokebSelected.FreeCapacity
             });
         }
 

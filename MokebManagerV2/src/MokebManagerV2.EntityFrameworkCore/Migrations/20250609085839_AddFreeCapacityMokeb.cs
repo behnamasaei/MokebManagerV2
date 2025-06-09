@@ -5,25 +5,25 @@
 namespace MokebManagerV2.Migrations
 {
     /// <inheritdoc />
-    public partial class Addbarcodetopilgrim : Migration
+    public partial class AddFreeCapacityMokeb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Barcode",
-                table: "AppPilgrim",
-                type: "nvarchar(max)",
+            migrationBuilder.AddColumn<int>(
+                name: "FreeCapacity",
+                table: "AppMokeb",
+                type: "int",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Barcode",
-                table: "AppPilgrim");
+                name: "FreeCapacity",
+                table: "AppMokeb");
         }
     }
 }

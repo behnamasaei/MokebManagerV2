@@ -1,17 +1,20 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using MokebManagerV2.Localization;
 using MokebManagerV2.MultiTenancy;
+using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
 using Volo.Abp.UI.Navigation;
+using static MokebManagerV2.Permissions.MokebManagerV2Permissions;
 
 namespace MokebManagerV2.Web.Menus;
 
 public class MokebManagerV2MenuContributor : IMenuContributor
 {
-   
+    
     public async Task ConfigureMenuAsync(MenuConfigurationContext context)
     {
         if (context.Menu.Name == StandardMenus.Main)
@@ -24,6 +27,7 @@ public class MokebManagerV2MenuContributor : IMenuContributor
     {
         var administration = context.Menu.GetAdministration();
         var L = context.GetLocalizer<MokebManagerV2Resource>();
+
 
         context.Menu.Items.Insert(
             0,
@@ -44,7 +48,7 @@ public class MokebManagerV2MenuContributor : IMenuContributor
                 "~/mokeb",
                 icon: "fas fa-home",
                 order: 0
-            )
+            ).RequirePermissions(MokebsPermissions.Default)
         );
 
         context.Menu.Items.Insert(
@@ -55,7 +59,7 @@ public class MokebManagerV2MenuContributor : IMenuContributor
                 "~/pilgrim/new",
                 icon: "fas fa-home",
                 order: 0
-            )
+            ).RequirePermissions(MokebsPermissions.Create)
         );
 
         context.Menu.Items.Insert(
@@ -66,9 +70,26 @@ public class MokebManagerV2MenuContributor : IMenuContributor
                 "~/pilgrim/discharge",
                 icon: "fas fa-home",
                 order: 0
-            )
+            ).RequirePermissions(PilgrimsPermissions.Create , PilgrimsPermissions.Edit)
         );
-        
+
+        context.Menu.AddItem(
+                new ApplicationMenuItem(MokebManagerV2Menus.Reporting, L["Reporting"],
+                icon: "fas fa-home")
+                    .AddItem(new ApplicationMenuItem(
+                        name: MokebManagerV2Menus.ReportingPilgrim,
+                        displayName: L["PilgrimList"],
+                        icon: "fas fa-home",
+                        url: "~/reporting/pilgrims")
+                    ).RequirePermissions(PilgrimsPermissions.Default)
+                    .AddItem(new ApplicationMenuItem(
+                        name: MokebManagerV2Menus.ReceptionChart,
+                        displayName: L["ReceptionChart"],
+                        icon: "fas fa-home",
+                        url: "~/reporting/receptionchart")
+                    ).RequirePermissions(PilgrimsPermissions.Default)
+          );
+
 
         if (MultiTenancyConsts.IsEnabled)
         {

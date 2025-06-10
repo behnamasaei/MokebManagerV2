@@ -12,6 +12,9 @@ using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.DependencyInjection;
+using MokebManagerV2.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MokebManagerV2.EntityFrameworkCore;
 
@@ -49,6 +52,15 @@ public class MokebManagerV2EntityFrameworkCoreModule : AbpModule
                  * See also MokebManagerV2MigrationsDbContextFactory for EF Core tooling. */
             options.UseSqlServer();
         });
+
+        //Configure<AbpEntityOptions>(options =>
+        //{
+        //    options.Entity<Pilgrim>(options =>
+        //    {
+        //        options.DefaultWithDetailsFunc = query => query.Include(x => x.Mokeb );
+        //    });
+        //});
+
 
     }
 }

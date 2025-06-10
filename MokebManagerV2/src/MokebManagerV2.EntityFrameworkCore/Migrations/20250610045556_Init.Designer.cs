@@ -13,7 +13,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace MokebManagerV2.Migrations
 {
     [DbContext(typeof(MokebManagerV2DbContext))]
-    [Migration("20250608201456_Init")]
+    [Migration("20250610045556_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -34,6 +34,40 @@ namespace MokebManagerV2.Migrations
 
                     b.Property<int>("BedNumber")
                         .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LastModifierId");
 
                     b.Property<Guid>("MokebId")
                         .HasColumnType("uniqueidentifier");
@@ -93,6 +127,9 @@ namespace MokebManagerV2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
+
+                    b.Property<int>("FreeCapacity")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -239,14 +276,15 @@ namespace MokebManagerV2.Migrations
 
                     b.HasIndex("NationalCode")
                         .IsUnique()
-                        .HasFilter("[NationalCode] IS NOT NULL");
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.HasIndex("PassportNo")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.HasIndex("PhoneNumber")
                         .IsUnique()
-                        .HasFilter("[PhoneNumber] IS NOT NULL");
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.ToTable("AppPilgrim", (string)null);
                 });

@@ -1,0 +1,68 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MokebManagerV2.Dtos
+@using MokebManagerV2.Localization
+@inject IHtmlLocalizer<MokebManagerV2Resource> Localizer
+@model MokebManagerV2.Web.Pages.Reporting.PilgrimsModel
+@{
+}
+
+@section Scripts{
+	<script>
+		function confirmDelete(id,name){
+
+			abp.message.confirm(
+				'آیا از حذف رکرود اطمینان دارید؟',
+				'هشدار',
+				function(confirmed){
+				  if(confirmed){
+					mokebManagerV2.services.pilgrim['delete'](id)
+							.done(function () {
+								abp.notify.success('حذف با موفقیت انجام شد');
+								location.reload();
+							})
+							.fail(function (error) {
+								abp.notify.error('خطا در حذف: ' + error.message);
+							});
+				  }
+			});
+		}
+
+	</script>
+}
+
+<div class="container mt-4">
+
+	<table class="table table-bordered table-hover">
+		<thead class="table-light">
+			<tr>
+				<th>پاسپورت</th>
+				<th>نام و نام خانوادگی</th>
+				<th>موکب</th>
+				<th>تاریخ ورود</th>
+				<th>حذف</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Pilgrims?.Items ?? new List<PilgrimDto>())
+			{
+				<tr>
+					<td>@item.PassportNo</td>
+					<td>@item.FullName</td>
+					<td>@item.Mokeb.Name</td>
+					<td>@item.EntryDate</td>
+					<td>
+						<button onclick="confirmDelete('@item.Id','@item.FullName')" class="btn btn-sm btn-danger">حذف</button>
+
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+	<!-- Pagination -->
+
+	<abp-paginator model="Model.PagerModel" show-info="true"></abp-paginator>
+
+
+</div>

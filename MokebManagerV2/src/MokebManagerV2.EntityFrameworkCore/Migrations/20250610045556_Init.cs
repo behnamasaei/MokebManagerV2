@@ -422,6 +422,7 @@ namespace MokebManagerV2.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
+                    FreeCapacity = table.Column<int>(type: "int", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Sex = table.Column<int>(type: "int", nullable: false),
                     DurationStay = table.Column<int>(type: "int", nullable: false),
@@ -833,7 +834,14 @@ namespace MokebManagerV2.Migrations
                     BedNumber = table.Column<int>(type: "int", nullable: false),
                     PilgrimId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MokebId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1132,20 +1140,21 @@ namespace MokebManagerV2.Migrations
                 table: "AppPilgrim",
                 column: "NationalCode",
                 unique: true,
-                filter: "[NationalCode] IS NOT NULL");
+                filter: "[IsDeleted] = 0");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppPilgrim_PassportNo",
                 table: "AppPilgrim",
                 column: "PassportNo",
-                unique: true);
+                unique: true,
+                filter: "[IsDeleted] = 0");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppPilgrim_PhoneNumber",
                 table: "AppPilgrim",
                 column: "PhoneNumber",
                 unique: true,
-                filter: "[PhoneNumber] IS NOT NULL");
+                filter: "[IsDeleted] = 0");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",

@@ -3,6 +3,79 @@
 @{
 }
 
+@section Scripts {
+
+	<script src="~/libs/html5-qrcode/html5-qrcode.min.js/html5-qrcode.min.js" type="text/javascript"></script>
+	<script>
+				// -- Configurable params --
+		const MIN_FPS = 2;
+		const MAX_FPS = 15;
+		const QRBOX_SIZE = 250;
+		const DEBOUNCE_MS = 2000;
+
+		// -- State for debouncing & fps control --
+		let lastDecoded = null;
+		let lastDecodeTime = 0;
+		let currentFps = MAX_FPS;
+
+		// -- Initialize low-level scanner --
+		const html5Qr = new Html5Qrcode(/* element id = */ "reader");
+
+		// -- Success handler with debounce & fps adjust --
+		async function onSuccess(decodedText, decodedResult) {
+		  const now = Date.now();
+
+		  // Debounce repeated scans
+		  if (decodedText === lastDecoded && (now - lastDecodeTime) < DEBOUNCE_MS) {
+			return;
+		  }
+		  lastDecoded = decodedText;
+		  lastDecodeTime = now;
+		const input = document.getElementById('barcodInput');
+		if (!input) {
+		  console.error('barcodInput not found in DOM');
+		  return;
+		}
+		input.value = decodedText;
+		  console.log(`✔️ Scanned: ${decodedText}`, decodedResult);
+
+		  // If you only want one scan, stop here:
+		  // await html5Qr.stop();
+
+		  // Otherwise, you might lower fps for a bit if idle
+		  currentFps = MIN_FPS;
+		  await html5Qr.clear(); // clear overlays
+		  setTimeout(() => startScanning(), 1000); // bump fps back up after 1 s
+		}
+
+		// -- Failure handler (ignore most errors) --
+		function onFailure(error) {
+		  // Only warn on serious errors
+		  if (error.name !== Html5QrcodeErrorTypes.NO_CODE_FOUND) {
+			console.warn(`Scan error: ${error}`);
+		  }
+		}
+
+		// -- Start (or restart) scanning with current FPS & box --
+		function startScanning() {
+		  html5Qr.start(
+			{ facingMode: "environment" },            // camera config
+			{ fps: currentFps, qrbox: QRBOX_SIZE },   // scan config
+			onSuccess,
+			onFailure
+		  ).catch(err => {
+			console.error("Failed to start scanner:", err);
+		  });
+		}
+
+		// -- Kick things off --
+		startScanning();
+
+	</script>
+}
+
+<div class="mb-5" id="reader" width="600px"></div>
+
 
 <form method="post">
 	<div class="row gx-5 gy-3 mb-5">

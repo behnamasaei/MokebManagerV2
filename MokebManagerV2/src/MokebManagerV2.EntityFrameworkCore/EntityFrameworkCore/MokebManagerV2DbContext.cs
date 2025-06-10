@@ -104,16 +104,6 @@ public class MokebManagerV2DbContext :
         builder.Entity<Pilgrim>(b =>
         {
             b.ToTable(MokebManagerV2Consts.DbTablePrefix + "Pilgrim", MokebManagerV2Consts.DbSchema);
-            b.HasOne(x => x.Mokeb).WithMany(x => x.Pilgrims)
-                .HasForeignKey(x => x.MokebId);
-
-            b.HasOne(x => x.Bed).WithOne(x => x.Pilgrim)
-                .HasForeignKey<Bed>(x => x.PilgrimId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            b.HasIndex(x => x.PassportNo).IsUnique();
-            b.HasIndex(x => x.NationalCode).IsUnique();
-            b.HasIndex(x => x.PhoneNumber).IsUnique();
             b.ConfigureByConvention();
         });
 

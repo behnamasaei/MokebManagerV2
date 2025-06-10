@@ -5,6 +5,52 @@
 
 (function(){
 
+  // controller mokebManagerV2.services.bed
+
+  (function(){
+
+    abp.utils.createNamespace(window, 'mokebManagerV2.services.bed');
+
+    mokebManagerV2.services.bed.create = function(input, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/bed',
+        type: 'POST',
+        data: JSON.stringify(input)
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.bed.update = function(id, input, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/bed/' + id + '',
+        type: 'PUT',
+        data: JSON.stringify(input)
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.bed['delete'] = function(id, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/bed/' + id + '',
+        type: 'DELETE',
+        dataType: null
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.bed.get = function(id, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/bed/' + id + '',
+        type: 'GET'
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.bed.getList = function(input, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/bed' + abp.utils.buildQueryString([{ name: 'sorting', value: input.sorting }, { name: 'skipCount', value: input.skipCount }, { name: 'maxResultCount', value: input.maxResultCount }]) + '',
+        type: 'GET'
+      }, ajaxParams));
+    };
+
+  })();
+
   // controller mokebManagerV2.services.mokeb
 
   (function(){
@@ -45,6 +91,67 @@
     mokebManagerV2.services.mokeb.getList = function(input, ajaxParams) {
       return abp.ajax($.extend(true, {
         url: abp.appPath + 'api/app/mokeb' + abp.utils.buildQueryString([{ name: 'sorting', value: input.sorting }, { name: 'skipCount', value: input.skipCount }, { name: 'maxResultCount', value: input.maxResultCount }]) + '',
+        type: 'GET'
+      }, ajaxParams));
+    };
+
+  })();
+
+  // controller mokebManagerV2.services.pilgrim
+
+  (function(){
+
+    abp.utils.createNamespace(window, 'mokebManagerV2.services.pilgrim');
+
+    mokebManagerV2.services.pilgrim.create = function(input, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/pilgrim',
+        type: 'POST',
+        data: JSON.stringify(input)
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.pilgrim.discharge = function(passportOrBarcode, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/pilgrim/discharge' + abp.utils.buildQueryString([{ name: 'passportOrBarcode', value: passportOrBarcode }]) + '',
+        type: 'POST',
+        dataType: null
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.pilgrim.getListWithDetail = function(input, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/pilgrim/with-detail' + abp.utils.buildQueryString([{ name: 'sorting', value: input.sorting }, { name: 'skipCount', value: input.skipCount }, { name: 'maxResultCount', value: input.maxResultCount }]) + '',
+        type: 'GET'
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.pilgrim.update = function(id, input, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/pilgrim/' + id + '',
+        type: 'PUT',
+        data: JSON.stringify(input)
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.pilgrim['delete'] = function(id, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/pilgrim/' + id + '',
+        type: 'DELETE',
+        dataType: null
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.pilgrim.get = function(id, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/pilgrim/' + id + '',
+        type: 'GET'
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.pilgrim.getList = function(input, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/pilgrim' + abp.utils.buildQueryString([{ name: 'sorting', value: input.sorting }, { name: 'skipCount', value: input.skipCount }, { name: 'maxResultCount', value: input.maxResultCount }]) + '',
         type: 'GET'
       }, ajaxParams));
     };

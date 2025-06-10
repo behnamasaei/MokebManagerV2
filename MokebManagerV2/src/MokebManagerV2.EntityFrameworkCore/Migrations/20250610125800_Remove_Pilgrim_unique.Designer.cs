@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace MokebManagerV2.Migrations
 {
     [DbContext(typeof(MokebManagerV2DbContext))]
-    [Migration("20250609080246_UpdateBedIsDeleted")]
-    partial class UpdateBedIsDeleted
+    [Migration("20250610125800_Remove_Pilgrim_unique")]
+    partial class Remove_Pilgrim_unique
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,6 +127,9 @@ namespace MokebManagerV2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
+
+                    b.Property<int>("FreeCapacity")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -270,17 +273,6 @@ namespace MokebManagerV2.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MokebId");
-
-                    b.HasIndex("NationalCode")
-                        .IsUnique()
-                        .HasFilter("[NationalCode] IS NOT NULL");
-
-                    b.HasIndex("PassportNo")
-                        .IsUnique();
-
-                    b.HasIndex("PhoneNumber")
-                        .IsUnique()
-                        .HasFilter("[PhoneNumber] IS NOT NULL");
 
                     b.ToTable("AppPilgrim", (string)null);
                 });

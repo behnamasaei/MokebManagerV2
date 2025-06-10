@@ -18,6 +18,6 @@ namespace MokebManagerV2.Interfaces
     {
 
         public Task DischargeAsync(string passportOrBarcode);
-
+        public Task<PagedResultDto<PilgrimDto>> GetListWithDetailAsync(PagedAndSortedResultRequestDto input);
     }
 }

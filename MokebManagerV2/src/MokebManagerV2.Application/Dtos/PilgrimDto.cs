@@ -23,7 +23,7 @@ namespace MokebManagerV2.Dtos
         public Guid BedId { get; set; }
         public virtual BedDto Bed{ get; set; }
         public Guid MokebId { get; set; }
-        public virtual MokebDto Mokeb { get; set; }
+        public MokebDto Mokeb { get; set; }
         public string Image { get; set; }
         public DateTime EntryDate { get; set; }
         public DateTime ForceExitDate { get; set; }

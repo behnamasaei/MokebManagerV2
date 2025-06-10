@@ -271,17 +271,6 @@ namespace MokebManagerV2.Migrations
 
                     b.HasIndex("MokebId");
 
-                    b.HasIndex("NationalCode")
-                        .IsUnique()
-                        .HasFilter("[NationalCode] IS NOT NULL");
-
-                    b.HasIndex("PassportNo")
-                        .IsUnique();
-
-                    b.HasIndex("PhoneNumber")
-                        .IsUnique()
-                        .HasFilter("[PhoneNumber] IS NOT NULL");
-
                     b.ToTable("AppPilgrim", (string)null);
                 });
 

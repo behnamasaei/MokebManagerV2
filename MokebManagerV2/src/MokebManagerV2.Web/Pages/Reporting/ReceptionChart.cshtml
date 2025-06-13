@@ -1,57 +1,168 @@
-﻿@page
+﻿@page "/AdminPanel/Reporting/ReceptionChart"
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MokebManagerV2.Localization
+@inject IHtmlLocalizer<MokebManagerV2Resource> Localizer
 @model MokebManagerV2.Web.Pages.Reporting.ReceptionChartModel
 @{
 }
 
-@section Scripts {
-	<script src="~/libs/chart.js/dist/chart.js"></script>
-	<script src="~/libs/chart.js/dist/chart.umd.js"></script>
+@section Styles {
+	<link type="text/css" rel="stylesheet" href="~/libs/majidh1/jalalidatepicker/dist/jalalidatepicker.min.css" />
+}
 
-	@* <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> *@
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+	<script src="~/libs/chart.js/dist/chart.umd.js"></script>
+	<script src="~/libs/jalaali-js/jalaali.min.js" type="text/javascript"></script>
+	<script src="~/libs/majidh1/jalalidatepicker/dist/jalalidatepicker.min.js" type="text/javascript"></script>
+
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-			const ctx = document.getElementById('myChart').getContext('2d');
-
-			new Chart(ctx, {
-				type: 'bar',
-				data: {
-					labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-					datasets: [{
-						label: '# of Votes',
-						data: [12, 19, 3, 5, 2, 3],
-						backgroundColor: [
-							'rgba(255, 99, 132, 0.2)',
-							'rgba(54, 162, 235, 0.2)',
-							'rgba(255, 206, 86, 0.2)',
-							'rgba(75, 192, 192, 0.2)',
-							'rgba(153, 102, 255, 0.2)',
-							'rgba(255, 159, 64, 0.2)'
-						],
-						borderColor: [
-							'rgba(255, 99, 132, 1)',
-							'rgba(54, 162, 235, 1)',
-							'rgba(255, 206, 86, 1)',
-							'rgba(75, 192, 192, 1)',
-							'rgba(153, 102, 255, 1)',
-							'rgba(255, 159, 64, 1)'
-						],
-						borderWidth: 1
-					}]
-				},
-				options: {
-					scales: {
-						y: {
-							beginAtZero: true
-						}
-					}
-				}
-			});
+		document.addEventListener("DOMContentLoaded", function () {
+		  jalaliDatepicker.startWatch();
 		});
+
+		let myChart = null;
+
+		document.addEventListener("DOMContentLoaded", () => {
+		  document.getElementById("searchBtn").addEventListener("click", searchRange);
+		});
+
+		function toGregorianISOString(jalaliDateStr) {
+		  const [datePart] = jalaliDateStr.split(" ");        // ignore any timePart
+		  const [jy, jm, jd] = datePart.split("/").map(Number);
+		  const { gy, gm, gd } = jalaali.toGregorian(jy, jm, jd);
+
+		  // pad month/day to two digits
+		  const mm = String(gm).padStart(2, "0");
+		  const dd = String(gd).padStart(2, "0");
+
+		  // return YYYY-MM-DD (or add `T00:00:00` if you really want a time component)
+		  return `${gy}-${mm}-${dd}`;
+		}
+
+
+		async function searchRange() {
+		  const rawStart = document.getElementById("startDate").value;
+		  const rawEnd = document.getElementById("endDate").value;
+
+		  if (!rawStart || !rawEnd) {
+			alert("Please select both dates.");
+			return;
+		  }
+
+		  // convert to ISO dates for the handler
+		  const startDate = toGregorianISOString(rawStart);
+		  const endDate = toGregorianISOString(rawEnd);
+		  const mokebId = document.getElementById('inputMokebId').value;
+
+		const params = new URLSearchParams({
+		  startDate: startDate,
+		  endDate:   endDate,
+		  mokebId:   mokebId.toString()
+		});
+
+		  const url = `/Reporting/ReceptionChart?handler=RangeData&${params}`;
+
+		  console.log(url);
+
+		  let data;
+		  try {
+			const response = await fetch(url);
+			if (!response.ok) throw new Error(`HTTP ${response.status}`);
+			data = await response.json();
+			console.log(data);
+		  } catch (err) {
+			console.error("Error fetching data:", err);
+			alert("Failed to load chart data.");
+			return;
+		  }
+
+		  renderChart(data);
+		}
+
+		function renderChart(data) {
+		  const ctx = document.getElementById("myChart").getContext("2d");
+
+		  // if a chart is already rendered, destroy it before creating a new one
+		  if (myChart) {
+			myChart.destroy();
+		  }
+
+
+		const dataChart = {
+		  labels: data.labels,
+		  datasets: [
+			{
+			  type: "line",
+			  label: "نمودار زائرین پذیرش شده",
+			  data: data.data,
+			  borderColor: "rgba(0, 0, 0, 0.3)",
+			  borderWidth: 1,
+			  pointRadius: 0,
+			  fill: false,
+			  order: 0, // Ensure it's drawn behind bars
+			},
+		  ],
+		};
+
+		myChart = new Chart(ctx, {
+		  type: "bar",
+		  data: dataChart,
+		  options: {
+			scales: {
+			  x: {
+				type: "category",
+				position: "bottom",
+			  },
+			  y: { beginAtZero: true },
+			},
+			responsive: true,
+			maintainAspectRatio: false,
+		  },
+		});
+
+
+
+		}
+
 	</script>
 }
 
 <div class="container">
-    <canvas id="myChart" width="400" height="200"></canvas>
-</div>
+	<div class="row">
+		<div class="col-12 col-md-6">
+			<label asp-for="Input.StartDate" class="form-label"></label>
+			<input data-jdp type="text" asp-for="Input.StartDate" class="form-control" style="direction:ltr" id="startDate">
+			<span asp-validation-for="Input.StartDate" class="text-danger"></span>
+		</div>
 
+		<div class="col-12 col-md-6">
+			<label asp-for="Input.EndDate" class="form-label"></label>
+			<input data-jdp type="text" asp-for="Input.EndDate" class="form-control" style="direction:ltr" id="endDate">
+			<span asp-validation-for="Input.EndDate" class="text-danger"></span>
+		</div>
+
+		<div class="col-12 col-md-6">
+			<label asp-for="Input.MokebId" class="form-label"></label>
+			<select asp-for="Input.MokebId" class="form-select" id="inputMokebId">
+				<option value="">@Localizer["Select"]</option>
+				@foreach (var item in Model.Mokebs)
+				{
+					<option sex="@item.Sex" value="@item.Id">@item.Name</option>
+				}
+			</select>
+			<span asp-validation-for="Input.MokebId" class="text-danger"></span>
+		</div>
+
+	</div>
+
+	<button class="btn btn-primary mt-3" id="searchBtn">جستجو</button>
+
+
+</div>
+<div class="container">
+
+	<canvas id="myChart" width="400" height="200"></canvas>
+
+</div>

@@ -1,0 +1,17 @@
+body{
+    font-family: Vazirmatn, sans-serif;
+    direction: rtl;
+}
+
+.ltr{
+    direction: ltr;
+}
+
+.hero-header{
+    margin-bottom: 0;
+    background: url('../img/gonbad.jpg');
+}
+
+.hero-header .hero-header-inner {
+    padding: 2rem;
+}

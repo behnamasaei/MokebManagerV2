@@ -10,7 +10,7 @@ public class MokebManagerV2Menus
     public const string Reporting = Prefix + ".Reporting";
     public const string ReportingPilgrim = Prefix + ".ReportingPilgrim";
     public const string ReceptionChart = Prefix + ".ReceptionChart";
-
+    public const string PilgrimTrafficControl = Prefix + ".TrafficControl";
 
     //Add your menu items here...
 

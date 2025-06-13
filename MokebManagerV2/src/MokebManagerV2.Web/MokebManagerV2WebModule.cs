@@ -118,7 +118,14 @@ public class MokebManagerV2WebModule : AbpModule
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
 
-        
+        Configure<RequestLocalizationOptions>(opts =>
+        {
+            var fa = new CultureInfo("fa-IR");
+            fa.DateTimeFormat.Calendar = new GregorianCalendar();
+            opts.DefaultRequestCulture = new RequestCulture(fa);
+            opts.SupportedCultures = new[] { fa };
+            opts.SupportedUICultures = new[] { fa };
+        });
 
 
     }

@@ -34,19 +34,19 @@ public class MokebManagerV2MenuContributor : IMenuContributor
             new ApplicationMenuItem(
                 MokebManagerV2Menus.Home,
                 L["Menu:Home"],
-                "~/",
+                "~/AdminPanel",
                 icon: "fas fa-home",
                 order: 0
             )
         );
-
+       
         context.Menu.Items.Insert(
             1,
             new ApplicationMenuItem(
                 MokebManagerV2Menus.Mokeb,
                 L["Menu:MokebSettings"],
-                "~/mokeb",
-                icon: "fas fa-home",
+                "~/AdminPanel/mokeb",
+                icon: "fa-solid fa-font-awesome",
                 order: 0
             ).RequirePermissions(MokebsPermissions.Default)
         );
@@ -56,8 +56,8 @@ public class MokebManagerV2MenuContributor : IMenuContributor
             new ApplicationMenuItem(
                 MokebManagerV2Menus.PilgrimReception,
                 L["Menu:PilgrimReception"],
-                "~/pilgrim/new",
-                icon: "fas fa-home",
+                "~/AdminPanel/pilgrim/new",
+                icon: "fa-solid fa-user",
                 order: 0
             ).RequirePermissions(MokebsPermissions.Create)
         );
@@ -67,26 +67,37 @@ public class MokebManagerV2MenuContributor : IMenuContributor
             new ApplicationMenuItem(
                 MokebManagerV2Menus.PilgrimDischarge,
                 L["PilgrimDischarge"],
-                "~/pilgrim/discharge",
-                icon: "fas fa-home",
+                "~/AdminPanel/pilgrim/discharge",
+                icon: "fa-solid fa-hand",
                 order: 0
             ).RequirePermissions(PilgrimsPermissions.Create , PilgrimsPermissions.Edit)
         );
 
+        context.Menu.Items.Insert(
+            3,
+            new ApplicationMenuItem(
+                MokebManagerV2Menus.PilgrimTrafficControl,
+                L["TrafficTracking"],
+                "~/AdminPanel/pilgrim/TrafficControl",
+                icon: "fa-solid fa-id-card",
+                order: 0
+            ).RequirePermissions(PilgrimsPermissions.Default)
+        );
+
         context.Menu.AddItem(
                 new ApplicationMenuItem(MokebManagerV2Menus.Reporting, L["Reporting"],
-                icon: "fas fa-home")
+                icon: "fa-solid fa-rectangle-list")
                     .AddItem(new ApplicationMenuItem(
                         name: MokebManagerV2Menus.ReportingPilgrim,
                         displayName: L["PilgrimList"],
-                        icon: "fas fa-home",
-                        url: "~/reporting/pilgrims")
+                        icon: "fa-solid fa-rectangle-list",
+                        url: "~/AdminPanel/reporting/pilgrims")
                     ).RequirePermissions(PilgrimsPermissions.Default)
                     .AddItem(new ApplicationMenuItem(
                         name: MokebManagerV2Menus.ReceptionChart,
                         displayName: L["ReceptionChart"],
-                        icon: "fas fa-home",
-                        url: "~/reporting/receptionchart")
+                        icon: "fa-solid fa-chart-bar",
+                        url: "~/AdminPanel/reporting/receptionchart")
                     ).RequirePermissions(PilgrimsPermissions.Default)
           );
 

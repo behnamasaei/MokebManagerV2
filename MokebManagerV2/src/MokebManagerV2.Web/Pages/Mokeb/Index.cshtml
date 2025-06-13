@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/AdminPanel/Mokeb"
 @using Microsoft.AspNetCore.Mvc.Localization
 @using MokebManagerV2.Dtos
 @using MokebManagerV2.Localization
@@ -115,7 +115,7 @@
 					<td>@item.Capacity</td>
 					<td>@item.DurationStay</td>
 					<td>
-						<a type="button" href="/Mokeb/Edit?id=@item.Id" class="btn btn-sm btn-primary">ویرایش</a>
+						<a type="button" href="/AdminPanel/Mokeb/Edit?id=@item.Id" class="btn btn-sm btn-primary">ویرایش</a>
 					</td>
 					<td>
 						<button onclick="confirmDelete('@item.Id','@item.Name')" class="btn btn-sm btn-danger">حذف</button>

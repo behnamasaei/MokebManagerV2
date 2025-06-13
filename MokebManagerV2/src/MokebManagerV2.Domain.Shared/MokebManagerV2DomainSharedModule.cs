@@ -1,4 +1,9 @@
-﻿using MokebManagerV2.Localization;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.DependencyInjection;
+using MokebManagerV2.Localization;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.FeatureManagement;
@@ -40,17 +45,29 @@ public class MokebManagerV2DomainSharedModule : AbpModule
             options.FileSets.AddEmbedded<MokebManagerV2DomainSharedModule>();
         });
 
+
         Configure<AbpLocalizationOptions>(options =>
         {
             options.Resources
                 .Add<MokebManagerV2Resource>("fa")
                 .AddVirtualJson("/Localization/MokebManagerV2")
                 .AddBaseTypes(typeof(AbpValidationResource));
+
+            options.Languages.Add(new LanguageInfo("fa", "fa", "فارسی"));
         });
 
-        Configure<AbpLocalizationOptions>(options =>
+        // ۲. پیکربندی RequestLocalizationOptions با GregorianCalendar
+        context.Services.Configure<RequestLocalizationOptions>(opts =>
         {
-            options.Languages.Add(new LanguageInfo("fa", "fa", "فارسی"));
+            // ایجاد یک CultureInfo برای fa-IR
+            var fa = new CultureInfo("fa-IR");
+            // جایگزینی تقویم پیش‌فرض (PersianCalendar) با GregorianCalendar
+            fa.DateTimeFormat.Calendar = new GregorianCalendar();
+
+            // تعیین فرهنگ پیش‌فرض و لیست فرهنگ‌های پشتیبانی‌شده
+            opts.DefaultRequestCulture = new RequestCulture(fa);
+            opts.SupportedCultures = new List<CultureInfo> { fa };
+            opts.SupportedUICultures = new List<CultureInfo> { fa };
         });
 
         Configure<AbpExceptionLocalizationOptions>(options =>

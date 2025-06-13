@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MokebManagerV2.Dtos;
+using MokebManagerV2.Extentions;
 using MokebManagerV2.Features;
 using MokebManagerV2.Interfaces;
 using MokebManagerV2.Models;
@@ -38,8 +39,9 @@ namespace MokebManagerV2.Services
             _featureChecker = featureChecker;
         }
 
-        public override async Task<PilgrimDto> CreateAsync(CreateUpdatePilgrimDto input)
+        public async Task<MokebResponse<PilgrimDto>> CreateAsync(CreateUpdatePilgrimDto input)
         {
+
             if (!await _featureChecker.IsEnabledAsync(MokebFeatures.BedStatusFeature))
             {
                 return await base.CreateAsync(input);
@@ -140,6 +142,26 @@ namespace MokebManagerV2.Services
             return bedId.HasValue
                 ? _bedAppService.DeleteAsync(bedId.Value)
                 : Task.CompletedTask;
+        }
+
+        public async Task<List<PilgrimDto>> GetAllFromMokebAsync(Guid mokebId)
+        {
+            var pilgrims = await base.Repository.GetListAsync(x => x.MokebId == mokebId);
+            return ObjectMapper.Map<List<Pilgrim>, List<PilgrimDto>>(pilgrims);
+        }
+
+        public async Task<bool> CheckTrackingAsync(string passportOrBarcode)
+        {
+            if (string.IsNullOrWhiteSpace(passportOrBarcode))
+                return false;
+
+            var normalizedValue = passportOrBarcode.ToUpper();
+
+            return await base.Repository.AnyAsync(x =>
+                (x.PassportNo != null && x.PassportNo.ToUpper() == normalizedValue) ||
+                (x.Barcode != null && x.Barcode.ToUpper() == normalizedValue) &&
+                x.ForceExitDate > DateTime.Now
+            );
         }
 
     }

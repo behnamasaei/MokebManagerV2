@@ -1,0 +1,142 @@
+﻿@page "/AdminPanel/Pilgrim/TrafficControl"
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MokebManagerV2.Localization
+@inject IHtmlLocalizer<MokebManagerV2Resource> Localizer
+@model MokebManagerV2.Web.Pages.Pilgrim.TrafficTrackingModel
+@{
+}
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+	<script src="~/libs/html5-qrcode/html5-qrcode.min.js/html5-qrcode.min.js" type="text/javascript"></script>
+
+	<script>
+
+		const selectElement = document.querySelector("#barcodInput");
+
+		 document.getElementById('barcodInput').addEventListener('input', function () {
+				checkTracking(this.value);
+		 });
+
+
+				function checkTracking(passBarcode){
+			const elements = document.querySelectorAll('#resultTraffic');
+						  elements.forEach(el => {
+							el.style.backgroundColor = 'none';
+							el.innerHTML = '';
+						 });
+
+			const params = new URLSearchParams({
+			  passBarcode: passBarcode
+			});
+
+			const url = `/pilgrim/trafficcontrol?handler=CheckTracking&${params}`;
+
+			fetch(url)
+				.then(response => {
+					if (!response.ok) throw new Error("Network error");
+					return response.json();
+				})
+				.then(result => {
+						  if(result.response){
+							const elements = document.querySelectorAll('#resultTraffic');
+							  elements.forEach(el => {
+								el.style.backgroundColor = 'green';
+								el.innerHTML = "ورود مجاز";
+							 });
+							}else{
+								const elements = document.querySelectorAll('#resultTraffic');
+								  elements.forEach(el => {
+									el.style.backgroundColor = 'red';
+									el.innerHTML = "ورود غیر مجاز";
+								 });
+							}
+
+				})
+				.catch(err => console.error("Error fetching mokeb:", err));
+		}
+	</script>
+
+	<script>
+				// -- Configurable params --
+		const MIN_FPS = 2;
+		const MAX_FPS = 15;
+		const QRBOX_SIZE = 250;
+		const DEBOUNCE_MS = 2000;
+
+		// -- State for debouncing & fps control --
+		let lastDecoded = null;
+		let lastDecodeTime = 0;
+		let currentFps = MAX_FPS;
+
+		// -- Initialize low-level scanner --
+		const html5Qr = new Html5Qrcode(/* element id = */ "reader");
+
+		// -- Success handler with debounce & fps adjust --
+		async function onSuccess(decodedText, decodedResult) {
+		  const now = Date.now();
+
+		  // Debounce repeated scans
+		  if (decodedText === lastDecoded && (now - lastDecodeTime) < DEBOUNCE_MS) {
+			return;
+		  }
+		  lastDecoded = decodedText;
+		  lastDecodeTime = now;
+		const input = document.getElementById('barcodInput');
+		if (!input) {
+		  console.error('barcodInput not found in DOM');
+		  return;
+		}
+		input.value = decodedText;
+		  console.log(`✔️ Scanned: ${decodedText}`, decodedResult);
+		  document.getElementById('barcodInput').value = decodedText;
+		  // If you only want one scan, stop here:
+		  // await html5Qr.stop();
+
+		  // Otherwise, you might lower fps for a bit if idle
+		  currentFps = MIN_FPS;
+		  await html5Qr.clear(); // clear overlays
+		  setTimeout(() => startScanning(), 1000); // bump fps back up after 1 s
+		}
+
+		// -- Failure handler (ignore most errors) --
+		function onFailure(error) {
+		  // Only warn on serious errors
+		  if (error.name !== Html5QrcodeErrorTypes.NO_CODE_FOUND) {
+			console.warn(`Scan error: ${error}`);
+		  }
+		}
+
+		// -- Start (or restart) scanning with current FPS & box --
+		function startScanning() {
+		  html5Qr.start(
+			{ facingMode: "environment" },            // camera config
+			{ fps: currentFps, qrbox: QRBOX_SIZE },   // scan config
+			onSuccess,
+			onFailure
+		  ).catch(err => {
+			console.error("Failed to start scanner:", err);
+		  });
+		}
+
+		// -- Kick things off --
+		startScanning();
+
+	</script>
+}
+
+<div class="container">
+	<form method="post" class="mb-3">
+		<div class="col-12 col-md-6">
+			<label class="form-label">@Localizer["PassportOrBarcode"]</label>
+			<input type="text" class="form-control" id="barcodInput" />
+		</div>
+		<div class="col-12 col-md-6">
+			<p><strong id="resultTraffic" class="p-2"></strong></p>
+		</div>
+	</form>
+
+
+	<div class="mb-5" id="reader" width="600px"></div>
+</div>
+

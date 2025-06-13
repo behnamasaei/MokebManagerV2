@@ -1,1 +1,176 @@
 @page
+@model MokebManagerV2.Web.Pages.IndexModel
+@{
+	Layout = "~/Pages/Shared/_KhademyarLayout.cshtml";
+}
+
+
+<!-- Events Start -->
+<div class="container-fluid event py-5" id="imageGallery">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <h1 class="display-6 mb-5 wow fadeIn" data-wow-delay="0.1s"><span class="text-primary">آشنایی با قابلیت های سامانه</span> </h1>
+            </div>
+            <div class="col-12 col-md-4 ltr">
+                <a href="@Url.Page("/Account/Login", new { returnUrl = "/AdminPanel" })" class="btn btn-primary py-2 px-4 mb-5">ورود به سامانه</a>
+            </div>
+        </div>
+        
+        <div class="row g-4 event-item wow fadeIn" data-wow-delay="0.1s">
+            <div class="col-3 col-lg-2 pe-0">
+                <div class="text-center border-bottom border-dark py-3 px-2">
+                    <h6>مدیریت</h6>
+                    <p class="mb-0">موکب</p>
+                </div>
+            </div>
+            <div class="col-9 col-lg-6 border-start border-dark pb-5">
+                <div class="ms-3">
+                    <h4 class="mb-3">مدیریت موکب ها</h4>
+                    <p class="mb-4">
+                        امکان تعریف تعداد دلخواه موکب با مشخصات زیر:
+                    </p>
+                    <ul>
+                        <li>تفکیک موکب‌ها برای آقایان و بانوان</li>
+                        <li>تعیین ظرفیت هر موکب</li>
+                        <li>تعیین مدت اقامت پیش‌فرض برای هر موکب</li>
+                        <li>ویرایش و حذف موکب های ثبت شده</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="overflow-hidden mb-5">
+                    <img src="~/layout-libs/img/APP/Mokeb.PNG" class="img-fluid w-100" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="row g-4 event-item wow fadeIn" data-wow-delay="0.3s">
+            <div class="col-3 col-lg-2 pe-0">
+                <div class="text-center border-bottom border-dark py-3 px-2">
+                    <h6>مدیریت</h6>
+                    <p class="mb-0">کاربران</p>
+                </div>
+            </div>
+            <div class="col-9 col-lg-6 border-start border-dark pb-5">
+                <div class="ms-3">
+                    <h4 class="mb-3">مدیریت کاربران</h4>
+                    <p class="mb-4">
+                        <ul>
+                            <li>امکان افزودن کاربر جدید</li>
+                            <li>تعیین سطح دسترسی برای هر کاربر</li>
+                            <li>تعیین نقش ها و وظایف کاربران</li>
+                            <li>ثبت و نگهداری اطلاعات کاربران سامانه</li>
+                        </ul>
+                    </p>
+                    <!-- <a href="#" class="btn btn-primary px-3">Join Now</a> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="overflow-hidden mb-5">
+                    <img src="~/layout-libs/img/APP/users.PNG" class="img-fluid w-100" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="row g-4 event-item wow fadeIn" data-wow-delay="0.5s">
+            <div class="col-3 col-lg-2 pe-0">
+                <div class="text-center border-bottom border-dark py-3 px-2">
+                    <h6>مدیریتی</h6>
+                    <p class="mb-0">پذیرش</p>
+                </div>
+            </div>
+            <div class="col-9 col-lg-6 border-start border-dark pb-5">
+                <div class="ms-3">
+                    <h4 class="mb-3">پذیرش زائر</h4>
+                    <p class="mb-4">
+                        پذیرش زائر
+                        <ul>
+                            <li>ثبت اطلاعات هر زائر</li>
+                            <li>دارای سیستم بارکد خوان داخلی</li>
+                            <li>قابلیت اتصال به بارکد خوان</li>
+                        </ul>
+                    </p>
+                    <!-- <a href="#" class="btn btn-primary px-3">Join Now</a> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="overflow-hidden mb-5">
+                    <img src="~/layout-libs/img/APP/ZAERreception.PNG" class="img-fluid w-100" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 event-item wow fadeIn" data-wow-delay="0.5s">
+            <div class="col-3 col-lg-2 pe-0">
+                <div class="text-center border-bottom border-dark py-3 px-2">
+                    <h6>مدیریتی</h6>
+                    <p class="mb-0">کنترل تردد</p>
+                </div>
+            </div>
+            <div class="col-9 col-lg-6 border-start border-dark pb-5">
+                <div class="ms-3">
+                    <h4 class="mb-3">کنترل تردد زائرین</h4>
+                    <p class="mb-4">
+                        بررسی امکان ورود زائرین به موکب<br>
+                        با استفاده از شماره پاسپورت و یا بارکدهای اختصاص داده شده به زائرین
+                    </p>
+                    <!-- <a href="#" class="btn btn-primary px-3">Join Now</a> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="overflow-hidden mb-5">
+                    <img src="~/layout-libs/img/APP/controlTraffic.PNG" class="img-fluid w-100" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 event-item wow fadeIn" data-wow-delay="0.5s">
+            <div class="col-3 col-lg-2 pe-0">
+                <div class="text-center border-bottom border-dark py-3 px-2">
+                    <h6>مدیریتی</h6>
+                    <p class="mb-0">لیست زائرین</p>
+                </div>
+            </div>
+            <div class="col-9 col-lg-6 border-start border-dark pb-5">
+                <div class="ms-3">
+                    <h4 class="mb-3">مشاهده لیست زائرین</h4>
+                    <p class="mb-4">
+                        بررسی لیست زائرین پذیرش شده
+                    </p>
+                    <!-- <a href="#" class="btn btn-primary px-3">Join Now</a> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="overflow-hidden mb-5">
+                    <img src="~/layout-libs/img/APP/ZAERLIST.PNG" class="img-fluid w-100" alt="">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row g-4 event-item wow fadeIn" data-wow-delay="0.5s">
+            <div class="col-3 col-lg-2 pe-0">
+                <div class="text-center border-bottom border-dark py-3 px-2">
+                    <h6>مدیریتی</h6>
+                    <p class="mb-0">نمودارهای پذیرش</p>
+                </div>
+            </div>
+            <div class="col-9 col-lg-6 border-start border-dark pb-5">
+                <div class="ms-3">
+                    <h4 class="mb-3">مشاهده نمودار پذیرش زائرین</h4>
+                    <p class="mb-4">
+                        نمایش زائرین پذیرش شده به تفکیک هر موکب طبق بازه تاریخی انتخاب شده<br>
+                        مدیریت تعداد زائرین پذیرش شده هر روز
+                    </p>
+                    <!-- <a href="#" class="btn btn-primary px-3">Join Now</a> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="overflow-hidden mb-5">
+                    <img src="~/layout-libs/img/APP/zaerchart.PNG" class="img-fluid w-100" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Events End -->

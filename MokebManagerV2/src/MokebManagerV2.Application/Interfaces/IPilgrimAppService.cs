@@ -19,5 +19,8 @@ namespace MokebManagerV2.Interfaces
 
         public Task DischargeAsync(string passportOrBarcode);
         public Task<PagedResultDto<PilgrimDto>> GetListWithDetailAsync(PagedAndSortedResultRequestDto input);
+        public Task<List<PilgrimDto>> GetAllFromMokebAsync(Guid mokebId);
+        public Task<bool> CheckTrackingAsync(string passportOrBarcode);
+        public Task<MokebResponse<PilgrimDto>> CreateAsync(CreateUpdatePilgrimDto input , bool forceCreate=false);
     }
 }

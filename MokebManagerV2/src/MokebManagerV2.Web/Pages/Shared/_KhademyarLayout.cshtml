@@ -1,172 +1,178 @@
-﻿
+﻿@inject Volo.Abp.Users.ICurrentUser CurrentUser
 @{
-    Layout = null;
+	Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="fa-IR" dir="rtl">
 
 <head>
-    <meta charset="utf-8">
-    <title>خادم یار</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+	<meta charset="utf-8">
+	<title>خادم یار</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta content="" name="keywords">
+	<meta content="" name="description">
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+	<!-- Google Web Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
 
-    <!-- Icon Font Stylesheet -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+	<!-- Icon Font Stylesheet -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Libraries Stylesheet -->
+	<!-- Libraries Stylesheet -->
 
-    <link href="~/layout-libs/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="~/layout-libs/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="~/layout-libs/viewerjs/dist/viewer.min.css" rel="stylesheet">
+	<link href="~/layout-libs/lib/animate/animate.min.css" rel="stylesheet">
+	<link href="~/layout-libs/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+	<link href="~/layout-libs/viewerjs/dist/viewer.min.css" rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="~/libs/bootstrap/css/bootstrap.rtl.min.css" rel="stylesheet">
+	<!-- Customized Bootstrap Stylesheet -->
+	<link href="~/libs/bootstrap/css/bootstrap.rtl.min.css" rel="stylesheet">
 
-    <!-- Fonts -->
-    <link href="~/layout-libs/vazirmatn/Vazirmatn-font-face.css" rel="stylesheet">
+	<!-- Fonts -->
+	<link href="~/layout-libs/vazirmatn/Vazirmatn-font-face.css" rel="stylesheet">
 
 
 
-    <!-- Template Stylesheet -->
+	<!-- Template Stylesheet -->
 
-    <link href="~/layout-libs/css/style.css" rel="stylesheet">
-    <link href="~/layout-libs/css/khademyar.css" rel="stylesheet">
+	<link href="~/layout-libs/css/style.css" rel="stylesheet">
+	<link href="~/layout-libs/css/khademyar.css" rel="stylesheet">
 
 
 </head>
 
 <body>
-    
-    <!-- Spinner Start -->
-    <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
-        <div class="spinner-grow text-primary" role="status"></div>
-    </div>
-    <!-- Spinner End -->
-    <!-- Topbar start -->
-    <div class="container-fluid fixed-top">
-        <div class="container topbar d-none d-lg-block">
-            <div class="topbar-inner">
-                <div class="row gx-0">
-                    <div class="col-lg-7 text-start">
-                        <div class="h-100 d-inline-flex align-items-center me-4">
-                            <span class="fa fa-phone-alt me-2 text-dark"></span>
-                            <a href="tel:+989152078926" class="text-secondary ltr"><span>+989152078926</span></a>
-                        </div>
-                        <div class="h-100 d-inline-flex align-items-center">
-                            <span class="far fa-envelope me-2 text-dark"></span>
-                            <a href="#" class="text-secondary"><span>info@example.com</span></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 text-end">
-                        <div class="h-100 d-inline-flex align-items-center">
-                            <!-- <span class="text-body">Follow Us:</span>
-                            <a class="text-dark px-2" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="text-dark px-2" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="text-dark px-2" href=""><i class="fab fa-linkedin-in"></i></a>
-                            <a class="text-dark px-2" href=""><i class="fab fa-instagram"></i></a> -->
-                            <a class="text-body ps-4" href="@Url.Page("/Account/Login", new { returnUrl = "/AdminPanel" })"><i class="fa fa-lock text-dark me-1"></i>ورود / عضویت</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <nav class="navbar navbar-light navbar-expand-lg py-3">
-                <a href="index.html" class="navbar-brand">
-                    <h1 class="mb-0">خادم یار</h1>
-                    <p class="mb-0">سامانه مدیریت موکب شهدای گمنام</p>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                    <span class="fa fa-bars text-primary"></span>
-                </button>
-                <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
-                    <div class="navbar-nav ms-lg-auto mx-xl-auto">
-                        <!-- <a href="index.html" class="nav-item nav-link active">Home</a>
-                        <a href="about.html" class="nav-item nav-link">About</a>
-                        <a href="activity.html" class="nav-item nav-link">Activities</a>
-                        <a href="event.html" class="nav-item nav-link">Events</a>
-                        <a href="sermon.html" class="nav-item nav-link">Sermons</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu m-0 rounded-0">
-                                <a href="blog.html" class="dropdown-item">Latest Blog</a>
-                                <a href="team.html" class="dropdown-item">Our Team</a>
-                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                <a href="404.html" class="dropdown-item">404 Page</a>
-                            </div>
-                        </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a> -->
-                    </div>
-                    <a href="tel:+989152078926" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block">تماس با ما</a>
-                </div>
-            </nav>
-        </div>
-    </div>
-    <!-- Topbar End -->
-    <!-- Hero Start -->
-    <div class="container-fluid hero-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7"></div>
-                <div class="col-12 col-lg-5">
-                    <div class="hero-header-inner animated zoomIn">
-                        <h2 class="mb-4 text-dark">سامانه مدیریت موکب شهدای گمنام</h2>
-                        <h5 class="mb-5 text-dark">راهکاری نوین برای مدیریت و ارتقای کیفیت خدمات‌رسانی به زائران حرم ائمه معصومین علیهم‌السلام</h5>
-                        <a href="tel:+989152078926" class="btn btn-primary py-3 px-5">تماس با ما</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Hero End -->
 
-    @RenderBody()
-
-   
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-primary border-3 border-light back-to-top"><i class="fa fa-arrow-up"></i></a>
-
-
-    <!-- JavaScript Libraries -->
-    <script src="~/libs/jquery/jquery.js"></script>
-    <script src="~/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/layout-libs/lib/wow/wow.min.js"></script>
-    <script src="~/layout-libs/lib/easing/easing.min.js"></script>
-    <script src="~/layout-libs/lib/waypoints/waypoints.min.js"></script>
-    <script src="~/layout-libs/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="~/layout-libs/viewerjs/dist/viewer.min.js"></script>
-    <script>
-        // document.addEventListener('DOMContentLoaded', () => {
-
-        //     const gallery = new Viewer(document.getElementById('imageViewer'));
-        // });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const image = document.getElementById('imageGallery');
-            if (image) {
-            const viewer = new Viewer(image, {
-                inline: false,
-                viewed() {
-                    viewer.zoomTo(1);
-                },
-            });
-            }
-        });
-    </script>
+	<!-- Spinner Start -->
+	<div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+		<div class="spinner-grow text-primary" role="status"></div>
+	</div>
+	<!-- Spinner End -->
+	<!-- Topbar start -->
+	<div class="container-fluid fixed-top">
+		<div class="container topbar d-none d-lg-block">
+			<div class="topbar-inner">
+				<div class="row gx-0">
+					<div class="col-lg-7 text-start">
+						<div class="h-100 d-inline-flex align-items-center me-4">
+							<span class="fa fa-phone-alt me-2 text-dark"></span>
+							<a href="tel:+989152078926" class="text-secondary ltr"><span>+989152078926</span></a>
+						</div>
+						<div class="h-100 d-inline-flex align-items-center">
+							<span class="far fa-envelope me-2 text-dark"></span>
+							<a href="#" class="text-secondary"><span>info@example.com</span></a>
+						</div>
+					</div>
+					<div class="col-lg-5 text-end">
+						<div class="h-100 d-inline-flex align-items-center">
+							<!-- <span class="text-body">Follow Us:</span>
+							<a class="text-dark px-2" href=""><i class="fab fa-facebook-f"></i></a>
+							<a class="text-dark px-2" href=""><i class="fab fa-twitter"></i></a>
+							<a class="text-dark px-2" href=""><i class="fab fa-linkedin-in"></i></a>
+							<a class="text-dark px-2" href=""><i class="fab fa-instagram"></i></a> -->
+							@if (CurrentUser.IsAuthenticated)
+							{
+								<a class="text-body ps-4" href="@Url.Page("/AdminPanel")">ورود به سامانه</a>
+							}
+							else
+							{
+								<a class="text-body ps-4" href="@Url.Page("/Account/Login", new { returnUrl = "/AdminPanel" })"><i class="fa fa-lock text-dark me-1"></i>ورود / عضویت</a>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<nav class="navbar navbar-light navbar-expand-lg py-3 main-navbar">
+				<a href="index.html" class="navbar-brand">
+					<h1 class="mb-0">خادم یار</h1>
+					<p class="mb-0">سامانه مدیریت موکب شهدای گمنام</p>
+				</a>
+				@* <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"> *@
+				@* 	<span class="fa fa-bars text-primary"></span> *@
+				@* </button> *@
+				<div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+					<div class="navbar-nav ms-lg-auto mx-xl-auto">
+						<!-- <a href="index.html" class="nav-item nav-link active">Home</a>
+						<a href="about.html" class="nav-item nav-link">About</a>
+						<a href="activity.html" class="nav-item nav-link">Activities</a>
+						<a href="event.html" class="nav-item nav-link">Events</a>
+						<a href="sermon.html" class="nav-item nav-link">Sermons</a>
+						<div class="nav-item dropdown">
+							<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+							<div class="dropdown-menu m-0 rounded-0">
+								<a href="blog.html" class="dropdown-item">Latest Blog</a>
+								<a href="team.html" class="dropdown-item">Our Team</a>
+								<a href="testimonial.html" class="dropdown-item">Testimonial</a>
+								<a href="404.html" class="dropdown-item">404 Page</a>
+							</div>
+						</div>
+						<a href="contact.html" class="nav-item nav-link">Contact</a> -->
+					</div>
+					<a href="tel:+989152078926" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block">تماس با ما</a>
+				</div>
+			</nav>
+		</div>
+	</div>
+	<!-- Topbar End -->
+	<!-- Hero Start -->
+	<div class="container-fluid hero-header">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-7"></div>
+				<div class="col-12 col-lg-5">
+					<div class="hero-header-inner animated zoomIn">
+						<h2 class="mb-4 text-dark">سامانه مدیریت موکب شهدای گمنام</h2>
+						<h5 class="mb-5 text-dark">راهکاری نوین برای مدیریت و ارتقای کیفیت خدمات‌رسانی به زائران حرم ائمه معصومین علیهم‌السلام</h5>
+						<a href="tel:+989152078926" class="btn btn-primary py-3 px-5">تماس با ما</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Hero End -->
+	@RenderBody()
 
 
-    <!-- Template Javascript -->
-    <script src="~/layout-libs/js/main.js"></script>
+
+	<!-- Back to Top -->
+	<a href="#" class="btn btn-primary border-3 border-light back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+
+	<!-- JavaScript Libraries -->
+	<script src="~/libs/jquery/jquery.js"></script>
+	<script src="~/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="~/layout-libs/lib/wow/wow.min.js"></script>
+	<script src="~/layout-libs/lib/easing/easing.min.js"></script>
+	<script src="~/layout-libs/lib/waypoints/waypoints.min.js"></script>
+	<script src="~/layout-libs/lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="~/layout-libs/viewerjs/dist/viewer.min.js"></script>
+	<script>
+		// document.addEventListener('DOMContentLoaded', () => {
+
+		//     const gallery = new Viewer(document.getElementById('imageViewer'));
+		// });
+
+		document.addEventListener('DOMContentLoaded', () => {
+			const image = document.getElementById('imageGallery');
+			if (image) {
+			const viewer = new Viewer(image, {
+				inline: false,
+				viewed() {
+					viewer.zoomTo(1);
+				},
+			});
+			}
+		});
+	</script>
+
+
+	<!-- Template Javascript -->
+	<script src="~/layout-libs/js/main.js"></script>
 </body>
 
 </html>

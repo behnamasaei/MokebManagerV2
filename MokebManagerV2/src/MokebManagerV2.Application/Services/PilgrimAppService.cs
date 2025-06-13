@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
 using MokebManagerV2.Dtos;
 using MokebManagerV2.Extentions;
 using MokebManagerV2.Features;
 using MokebManagerV2.Interfaces;
+using MokebManagerV2.Localization;
 using MokebManagerV2.Models;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -24,9 +26,10 @@ namespace MokebManagerV2.Services
         private readonly IBedAppService _bedAppService;
         private readonly IMokebAppService _mokebAppService;
         private readonly IFeatureChecker _featureChecker;
+        private readonly IStringLocalizer<MokebManagerV2Resource> _localizer;
         private readonly IRepository<Pilgrim, Guid> _pilgrimAppService;
 
-        public PilgrimAppService(IRepository<Pilgrim, Guid> repository, IBedAppService bedAppService, IMokebAppService mokebAppService, IRepository<Pilgrim, Guid> pilgrimAppService, IFeatureChecker featureChecker) : base(repository)
+        public PilgrimAppService(IRepository<Pilgrim, Guid> repository, IBedAppService bedAppService, IMokebAppService mokebAppService, IRepository<Pilgrim, Guid> pilgrimAppService, IFeatureChecker featureChecker, IStringLocalizer<MokebManagerV2Resource> localizer) : base(repository)
         {
             GetPolicyName = PilgrimsPermissions.Default;
             GetListPolicyName = PilgrimsPermissions.Default;
@@ -37,17 +40,24 @@ namespace MokebManagerV2.Services
             _mokebAppService = mokebAppService;
             _pilgrimAppService = pilgrimAppService;
             _featureChecker = featureChecker;
+            _localizer = localizer;
         }
 
-        public async Task<MokebResponse<PilgrimDto>> CreateAsync(CreateUpdatePilgrimDto input)
+        public async Task<MokebResponse<PilgrimDto>> CreateAsync(CreateUpdatePilgrimDto input, bool forceCreate = false)
         {
+            PilgrimDto pilgrimDto = null;
 
             if (!await _featureChecker.IsEnabledAsync(MokebFeatures.BedStatusFeature))
             {
-                return await base.CreateAsync(input);
+                pilgrimDto = await base.CreateAsync(input);
+                return new MokebResponse<PilgrimDto>
+                {
+                    Data = pilgrimDto,
+                    StatusCode = 200,
+                    Message = _localizer["CreateOk"],
+                };
             }
 
-            PilgrimDto pilgrim = null;
             var mokebQueryable = await _mokebAppService.WithDetailsAsync(x => x.Beds);
             var mokebQuery = mokebQueryable.Where(x => x.Id == input.MokebId);
             var mokeb = ObjectMapper.Map<Mokeb, MokebDto>(await AsyncExecuter.FirstOrDefaultAsync(mokebQuery));
@@ -59,29 +69,51 @@ namespace MokebManagerV2.Services
                 if (existingBed == null)
                 {
                     input.BedNumber = i;
-                    pilgrim = await base.CreateAsync(input);
+                    pilgrimDto = await base.CreateAsync(input);
 
 
                     var newBed = await _bedAppService.CreateAsync(new CreateUpdateBedDto
                     {
                         BedNumber = i,
-                        PilgrimId = pilgrim.Id,
+                        PilgrimId = pilgrimDto.Id,
                         MokebId = input.MokebId,
-                        TenantId = pilgrim.TenantId
+                        TenantId = pilgrimDto.TenantId
                     });
 
-                    var updatePilgrimInput = ObjectMapper.Map<PilgrimDto, CreateUpdatePilgrimDto>(pilgrim);
+                    var updatePilgrimInput = ObjectMapper.Map<PilgrimDto, CreateUpdatePilgrimDto>(pilgrimDto);
                     updatePilgrimInput.BedId = newBed.Id;
 
-                    await base.UpdateAsync(pilgrim.Id, updatePilgrimInput);
+                    await base.UpdateAsync(pilgrimDto.Id, updatePilgrimInput);
 
                     var mokebUpdateInput = ObjectMapper.Map<MokebDto, CreateUpdateMokebDto>(mokeb);
                     mokebUpdateInput.FreeCapacity--;
                     await _mokebAppService.UpdateAsync(mokeb.Id, mokebUpdateInput);
-                    return pilgrim;
+                    return new MokebResponse<PilgrimDto>
+                    {
+                        Data = pilgrimDto,
+                        StatusCode = 200,
+                        Message = _localizer["CreateOk"],
+                    };
                 }
             }
-            return pilgrim;
+
+            if (forceCreate)
+            {
+                pilgrimDto = await base.CreateAsync(input);
+                return new MokebResponse<PilgrimDto>
+                {
+                    Data = pilgrimDto,
+                    StatusCode = 200,
+                    Message = _localizer["CreateOk"],
+                };
+            }
+
+            return new MokebResponse<PilgrimDto>
+            {
+                Data = pilgrimDto,
+                StatusCode = 406,
+                Message = _localizer["NoSpaceToCreate"],
+            };
         }
 
         

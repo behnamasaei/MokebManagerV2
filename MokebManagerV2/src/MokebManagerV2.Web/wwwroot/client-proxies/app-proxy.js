@@ -73,6 +73,14 @@
       }, ajaxParams));
     };
 
+    mokebManagerV2.services.mokeb.withDetails = function(propertySelectors, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/mokeb/with-details',
+        type: 'POST',
+        data: JSON.stringify(propertySelectors)
+      }, ajaxParams));
+    };
+
     mokebManagerV2.services.mokeb['delete'] = function(id, ajaxParams) {
       return abp.ajax($.extend(true, {
         url: abp.appPath + 'api/app/mokeb/' + id + '',
@@ -103,11 +111,18 @@
 
     abp.utils.createNamespace(window, 'mokebManagerV2.services.pilgrim');
 
-    mokebManagerV2.services.pilgrim.create = function(input, ajaxParams) {
+    mokebManagerV2.services.pilgrim.createAsyncByInputAndForceCreate = function(input, forceCreate, ajaxParams) {
       return abp.ajax($.extend(true, {
-        url: abp.appPath + 'api/app/pilgrim',
+        url: abp.appPath + 'api/app/pilgrim' + abp.utils.buildQueryString([{ name: 'forceCreate', value: forceCreate }]) + '',
         type: 'POST',
         data: JSON.stringify(input)
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.pilgrim.getListWithDetail = function(input, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/pilgrim/with-detail' + abp.utils.buildQueryString([{ name: 'sorting', value: input.sorting }, { name: 'skipCount', value: input.skipCount }, { name: 'maxResultCount', value: input.maxResultCount }]) + '',
+        type: 'GET'
       }, ajaxParams));
     };
 
@@ -119,10 +134,25 @@
       }, ajaxParams));
     };
 
-    mokebManagerV2.services.pilgrim.getListWithDetail = function(input, ajaxParams) {
+    mokebManagerV2.services.pilgrim.getAllFromMokeb = function(mokebId, ajaxParams) {
       return abp.ajax($.extend(true, {
-        url: abp.appPath + 'api/app/pilgrim/with-detail' + abp.utils.buildQueryString([{ name: 'sorting', value: input.sorting }, { name: 'skipCount', value: input.skipCount }, { name: 'maxResultCount', value: input.maxResultCount }]) + '',
+        url: abp.appPath + 'api/app/pilgrim/from-mokeb/' + mokebId + '',
         type: 'GET'
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.pilgrim.checkTracking = function(passportOrBarcode, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/pilgrim/check-tracking' + abp.utils.buildQueryString([{ name: 'passportOrBarcode', value: passportOrBarcode }]) + '',
+        type: 'POST'
+      }, ajaxParams));
+    };
+
+    mokebManagerV2.services.pilgrim.createAsyncByInput = function(input, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/app/pilgrim',
+        type: 'POST',
+        data: JSON.stringify(input)
       }, ajaxParams));
     };
 

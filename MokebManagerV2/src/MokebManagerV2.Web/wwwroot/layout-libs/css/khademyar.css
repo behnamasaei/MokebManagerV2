@@ -7,6 +7,10 @@ body{
     direction: ltr;
 }
 
+.main-navbar {
+    backdrop-filter: blur(5px);
+}
+
 .hero-header{
     margin-bottom: 0;
     background: url('../img/gonbad.jpg');
@@ -14,4 +18,10 @@ body{
 
 .hero-header .hero-header-inner {
     padding: 2rem;
+}
+
+@media (max-width: 1330px) {
+    .hero-header {
+        background: url('../img/parcham.jpg') !important;
+    }
 }

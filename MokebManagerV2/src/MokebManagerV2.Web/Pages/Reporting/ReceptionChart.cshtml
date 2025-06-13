@@ -62,7 +62,7 @@
 		  mokebId:   mokebId.toString()
 		});
 
-		  const url = `/Reporting/ReceptionChart?handler=RangeData&${params}`;
+		  const url = `/AdminPanel/Reporting/ReceptionChart?handler=RangeData&${params}`;
 
 		  console.log(url);
 
@@ -94,7 +94,7 @@
 		  labels: data.labels,
 		  datasets: [
 			{
-			  type: "line",
+			  type: "bar",
 			  label: "نمودار زائرین پذیرش شده",
 			  data: data.data,
 			  borderColor: "rgba(0, 0, 0, 0.3)",
@@ -159,6 +159,7 @@
 
 	<button class="btn btn-primary mt-3" id="searchBtn">جستجو</button>
 
+	<h5 class="text-danger mb-5">* توجه روز خروج در آمار گزارشات محاسبه نشده است</h5>
 
 </div>
 <div class="container">

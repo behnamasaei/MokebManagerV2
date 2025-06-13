@@ -46,11 +46,11 @@ namespace MokebManagerV2.Web.Pages.Reporting
                 {
                     Date = date,
                     Count = pilgrims.Count(x =>
-                                            x.EntryDate < date
+                                            x.EntryDate.Date <= date.Date
                                             && (
-                                                (x.ExitDate == DateTime.MinValue)
-                                                  ? x.ForceExitDate > date
-                                                  : x.ExitDate > date
+                                                (x.ExitDate == DateTime.MinValue || x.ExitDate == null)
+                                                  ? x.ForceExitDate.Date > date.Date
+                                                  : x.ExitDate.Date > date.Date
                                                ))
                 });
             }

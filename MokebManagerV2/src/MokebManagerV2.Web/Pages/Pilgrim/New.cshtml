@@ -58,7 +58,7 @@
 				sexInput.value = sex || "";
 			}
 
-			fetch('/pilgrim/new?handler=MokebData&id=' + event.value)
+			fetch('/AdminPanel/pilgrim/new?handler=MokebData&id=' + event.value)
 				.then(response => {
 					if (!response.ok) throw new Error("Network error");
 					return response.json();
